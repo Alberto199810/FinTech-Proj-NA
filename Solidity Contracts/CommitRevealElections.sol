@@ -12,8 +12,10 @@ contract CommitRevealElections is String_Evaluation {
     string ballotTitle;
     uint public maximumChoicesAllowed;
     address owner;
+    address[] listOfWAddress;
 
-    constructor(uint _timeForCommitment, uint _timeForReveal, uint _maximumChoices, string _ballotTitle, address _owner) public {
+    constructor(uint _timeForCommitment, uint _timeForReveal, uint _maximumChoices, string _ballotTitle,
+                address _owner, address[] _listOfWAddress) public {
         require(_timeForCommitment >= 20);
         require(_timeForReveal >= 20);
         maximumChoicesAllowed = _maximumChoices;
@@ -21,9 +23,10 @@ contract CommitRevealElections is String_Evaluation {
         timeForReveal = timeForCommitment + _timeForReveal * 1 seconds;
         ballotTitle = _ballotTitle;
         owner = _owner;
+        listOfWAddress = _listOfWAddress;
     }
 
-    // Let's initialize candidates
+    // Let's initialize structs
     struct Candidates {
         string[] candidateList;
         mapping (string => uint256) votesReceived;
@@ -53,8 +56,19 @@ contract CommitRevealElections is String_Evaluation {
 
     ///// FUNCTIONS
 
+    function checkifWhitelisted(address _indir) private view returns (bool) {
+        for(uint k = 0; k < listOfWAddress.length; k++) {
+            address indir = listOfWAddress[k];
+            if (indir == _indir) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Function to set the candidates proposed by each voter
     function setCandidates(string _candidate) public {
+        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(proposedCandidates[msg.sender] == false, "You already did your proposal"); //Only one proposal
         c.candidateList.push(_candidate);
         proposedCandidates[msg.sender] = true;
@@ -63,6 +77,7 @@ contract CommitRevealElections is String_Evaluation {
 
     // Function to see the proposed candidates up to that moment
     function showCandidates() public view returns(string[]) {
+        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         return c.candidateList;
     }
 
@@ -71,6 +86,7 @@ contract CommitRevealElections is String_Evaluation {
     // Function to Commit the vote
     function commitVote(bytes32 _voteCommit) public {
 
+        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(now <= timeForCommitment, "Committing period is over!");
         require(hasVoted[msg.sender] == false, "You already voted!");
         
@@ -89,6 +105,7 @@ contract CommitRevealElections is String_Evaluation {
     // Function to Reveal the vote
     function revealVote(string _vote, bytes32 _voteCommit) public {
 
+        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(now > timeForCommitment, "Time is not over! You cannot reveal your vote yet");
         require(now <= timeForReveal, "Revealing period is over!");
         
@@ -142,12 +159,14 @@ contract CommitRevealElections is String_Evaluation {
 
     // Function to see the remaining time for COMMITMENT
     function getRemainingTimeForCommitment() public view returns (uint) {
-       require(now <= timeForCommitment, "Committment period is over!");
+        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
+        require(now <= timeForCommitment, "Committment period is over!");
         return timeForCommitment - now;
     }
 
     // Function to see the remaining time for REVEAL
     function getRemainingTimeForRevealLimit() public view returns (uint) {
+        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(now > timeForCommitment, "Committment period is still going on!");
         require(now <= timeForReveal, "Reveal period is over!");
         return timeForReveal - now;
@@ -155,6 +174,7 @@ contract CommitRevealElections is String_Evaluation {
 
     // Function to get title of ballot
     function getTitle() public view returns (string) {
+        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         return ballotTitle;
     }
    
