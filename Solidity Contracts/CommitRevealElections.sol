@@ -68,6 +68,7 @@ contract CommitRevealElections is String_Evaluation {
 
     // Function to set the candidates proposed by each voter
     function setCandidates(string _candidate) public {
+        require(numberOfChoices <= maximumChoicesAllowed, "You cannot add any more option");
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(proposedCandidates[msg.sender] == false, "You already did your proposal"); //Only one proposal
         c.candidateList.push(_candidate);
