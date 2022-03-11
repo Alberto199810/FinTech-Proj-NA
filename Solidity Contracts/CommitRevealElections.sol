@@ -149,6 +149,7 @@ contract CommitRevealElections is String_Evaluation {
     // Function to see the remaining time for REVEAL
     function getRemainingTimeForRevealLimit() public view returns (uint) {
         require(now > timeForCommitment, "Committment period is still going on!");
+        require(now <= timeForReveal, "Reveal period is over!");
         return timeForReveal - now;
     }
 
