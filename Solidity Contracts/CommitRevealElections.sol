@@ -181,11 +181,10 @@ contract CommitRevealElections is String_Evaluation {
         return c.votesReceived[_candidate];
     }
 
-    // Function to be used after Time for Revealing is over. You can see the winner of the ballot
-
     mapping(string => bool) userinList;
 
-    function getWinner() public view returns(string[]){
+// Function to be used after Time for Revealing is over. You can see the winners of the ballot
+    function getWinners() public view returns(string[]){
 
         uint256[] memory store_vars = new uint256[](numofWinners);
         string[] memory Win_Cands = new string[](numofWinners);
