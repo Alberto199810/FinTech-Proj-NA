@@ -169,7 +169,7 @@ contract CommitRevealElections is String_Evaluation {
         userinList[Win_Cands[0]] = true;
         for (uint256 cnumb = 1; cnumb < numofWinners; cnumb++) {
             for(uint256 xx = 0; xx < c.candidateList.length; xx++){
-                if (store_vars[cnumb] < c.votesReceived[c.candidateList[xx]] && 
+                if (store_vars[cnumb] <= c.votesReceived[c.candidateList[xx]] && 
                     keccak256(abi.encodePacked(c.candidateList[xx])) != keccak256(abi.encodePacked(Win_Cands[cnumb-1])) &&
                     userinList[c.candidateList[xx]] == false) {
                     store_vars[cnumb] = c.votesReceived[c.candidateList[xx]];
