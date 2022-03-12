@@ -155,7 +155,7 @@ contract CommitRevealElections is String_Evaluation {
     mapping(string => bool) userinList;
 
     // Function to be used after Time for Revealing is over. You can see the winners of the ballot
-    function getWinners() public view onlyowner returns(string[]){
+    function getWinners() public view onlyOwner returns(string[]){
 
         uint256[] memory store_vars = new uint256[](numofWinners);
         string[] memory Win_Cands = new string[](numofWinners);
@@ -228,7 +228,7 @@ contract CommitRevealElections is String_Evaluation {
     }
 
     // Function to see the remaining time for REVEAL
-    function getRemainingTimeForRevealLimit() public view returns (uint256) {
+    function getRemainingTimeForReveal() public view returns (uint256) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(now > timeForCommitment, "Commitment period is still going on!");
         require(now <= timeForReveal, "Reveal period is over!");
