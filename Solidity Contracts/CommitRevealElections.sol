@@ -25,8 +25,6 @@ contract CommitRevealElections is String_Evaluation {
         mapping (string => uint256) votesReceived;
     }
 
-    Candidates c;
-
     struct Voter {
         address[] voterList;
         mapping (address => bytes32[]) voteOfAddress;
@@ -34,6 +32,7 @@ contract CommitRevealElections is String_Evaluation {
         mapping(bytes32 => uint256) amountOfEachVote;
     }
 
+    Candidates c;
     Voter v;
 
     // Let's build our constructor
@@ -60,12 +59,6 @@ contract CommitRevealElections is String_Evaluation {
         numofWinners = _numofWinners;
     }
 
-    // Modifier to allow functions callable only by the owner
-    modifier onlyOwner {
-        require(msg.sender == owner, "Caller is not the owner of the contract!");
-        _;
-    }
-
     // Information about the current status of the vote
     uint256 public numberOfVotesCast = 0;
 
@@ -79,17 +72,7 @@ contract CommitRevealElections is String_Evaluation {
 
     mapping (address => bool) public proposedCandidates; // Useful for submitting only one choice
 
-    ///// FUNCTIONS
-
-    function checkifWhitelisted(address _indir) private view returns (bool) {
-        for(uint256 k = 0; k < v.voterList.length; k++) {
-            address indir = v.voterList[k];
-            if (indir == _indir) {
-                return true;
-            }
-        }
-        return false;
-    }
+    ///// FUNDAMENTAL FUNCTIONS
 
     // Function to set the candidates proposed by each voter
     function setCandidates(string _candidate) public {
@@ -105,12 +88,6 @@ contract CommitRevealElections is String_Evaluation {
         c.candidateList.push(_candidate);
         proposedCandidates[msg.sender] = true;
         numberOfChoices++;
-    }
-
-    // Function to see the proposed candidates up to that moment
-    function showCandidates() public view returns(string[]) {
-        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
-        return c.candidateList;
     }
     
     // Function to Commit the vote
@@ -175,16 +152,10 @@ contract CommitRevealElections is String_Evaluation {
         voteStatuses[_voteCommit] = "Revealed";
     }
 
-    // Function to be used after Time for Revealing is over. You can see votes for a single candidate
-    function votesForACandidate(string _candidate) public view onlyOwner returns(uint256) {
-        require(now >= timeForReveal, "Time for revealing is not over yet");
-        return c.votesReceived[_candidate];
-    }
-
     mapping(string => bool) userinList;
 
-// Function to be used after Time for Revealing is over. You can see the winners of the ballot
-    function getWinners() public view returns(string[]){
+    // Function to be used after Time for Revealing is over. You can see the winners of the ballot
+    function getWinners() public view onlyowner returns(string[]){
 
         uint256[] memory store_vars = new uint256[](numofWinners);
         string[] memory Win_Cands = new string[](numofWinners);
@@ -208,6 +179,37 @@ contract CommitRevealElections is String_Evaluation {
             userinList[Win_Cands[cnumb]] = true;  
         }
     return(Win_Cands);         
+    }
+
+    ///// OTHER FUNCTIONS
+
+    // Modifier to allow functions callable only by the owner
+    modifier onlyOwner {
+        require(msg.sender == owner, "Caller is not the owner of the contract!");
+        _;
+    }
+
+    //Function to check if voter is enabled to vote
+    function checkifWhitelisted(address _indir) private view returns (bool) {
+        for(uint256 k = 0; k < v.voterList.length; k++) {
+            address indir = v.voterList[k];
+            if (indir == _indir) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Function to see the proposed candidates up to that moment
+    function showCandidates() public view returns(string[]) {
+        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
+        return c.candidateList;
+    }
+
+    // Function to be used after Time for Revealing is over. You can see votes for a single candidate
+    function votesForACandidate(string _candidate) public view onlyOwner returns(uint256) {
+        require(now >= timeForReveal, "Time for revealing is not over yet");
+        return c.votesReceived[_candidate];
     }
 
     // Function to see the remaining time for PROPOSAL
