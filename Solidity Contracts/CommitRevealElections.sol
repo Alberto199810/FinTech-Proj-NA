@@ -155,30 +155,23 @@ contract CommitRevealElections is String_Evaluation {
     mapping(string => bool) userinList;
 
     // Function to be used after Time for Revealing is over. You can see the winners of the ballot
-    function getWinners() public view onlyOwner returns(string[]){
+    function getWinners() public view onlyOwner returns(string[], uint256[]){
+
+        require(now > timeForReveal, "Revealing period is not over yet!");
 
         uint256[] memory store_vars = new uint256[](numofWinners);
         string[] memory Win_Cands = new string[](numofWinners);
 
-        for(uint256 i=0 ; i<c.candidateList.length ; i++){
-            if (store_vars[0] < c.votesReceived[c.candidateList[i]]){
-                store_vars[0] = c.votesReceived[c.candidateList[i]];
-                Win_Cands[0] = c.candidateList[i];
-            }
-        }
-        userinList[Win_Cands[0]] = true;
-        for (uint256 cnumb = 1; cnumb < numofWinners; cnumb++) {
+        for (uint256 cnumb = 0; cnumb < numofWinners; cnumb++) {
             for(uint256 xx = 0; xx < c.candidateList.length; xx++){
-                if (store_vars[cnumb] <= c.votesReceived[c.candidateList[xx]] && 
-                    keccak256(abi.encodePacked(c.candidateList[xx])) != keccak256(abi.encodePacked(Win_Cands[cnumb-1])) &&
-                    userinList[c.candidateList[xx]] == false) {
+                if (store_vars[cnumb] <= c.votesReceived[c.candidateList[xx]] && userinList[c.candidateList[xx]] == false) {
                     store_vars[cnumb] = c.votesReceived[c.candidateList[xx]];
                     Win_Cands[cnumb] = c.candidateList[xx];  
                 }
             }
             userinList[Win_Cands[cnumb]] = true;  
         }
-    return(Win_Cands);         
+        return(Win_Cands, store_vars);         
     }
 
     ///// OTHER FUNCTIONS
@@ -208,7 +201,7 @@ contract CommitRevealElections is String_Evaluation {
 
     // Function to be used after Time for Revealing is over. You can see votes for a single candidate
     function votesForACandidate(string _candidate) public view onlyOwner returns(uint256) {
-        require(now >= timeForReveal, "Time for revealing is not over yet");
+        require(now >= timeForReveal, "Revealing period is not over yet!");
         return c.votesReceived[_candidate];
     }
 
