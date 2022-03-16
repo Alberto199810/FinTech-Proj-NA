@@ -68,8 +68,10 @@ contract CommitRevealElections is String_Evaluation {
     mapping(bytes32 => string) voteStatuses; // Either `Committed` or `Revealed`
     
     // Events used to log what's going on in the contract
-    event logString(string);
+    event candidateSet(string);
     event newVoteCommit(string, bytes32);
+    event newVoteRevealed(string, bytes32);
+    event winnersResults(string);
 
     mapping (address => bool) private proposedCandidates; // Useful for submitting only one choice
 
@@ -89,6 +91,7 @@ contract CommitRevealElections is String_Evaluation {
         c.candidateList.push(_candidate);
         proposedCandidates[msg.sender] = true;
         numberOfChoices++;
+        emit candidateSet(_candidate);
     }
     
     // Function to Commit the vote
@@ -149,8 +152,8 @@ contract CommitRevealElections is String_Evaluation {
                 c.votesReceived[c.candidateList[j]] += v.amountOfEachVote[_voteCommit];
             } else {continue;}
         }
-        emit logString("Vote revealed and counted.");
         voteStatuses[_voteCommit] = "Revealed";
+        emit newVoteRevealed("Vote revealed and counted with commitment", _voteCommit);
     }
 
     mapping(string => bool) userinList;
@@ -172,7 +175,8 @@ contract CommitRevealElections is String_Evaluation {
             }
             userinList[Win_Cands[cnumb]] = true;  
         }
-        return(Win_Cands, store_vars);         
+        return(Win_Cands, store_vars);   
+        emit winnersResults("Winners revealed and ballot's over!");  
     }
 
     ///// OTHER FUNCTIONS
