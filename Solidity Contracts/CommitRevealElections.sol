@@ -10,14 +10,14 @@ contract CommitRevealElections is String_Evaluation {
 
     ///// FUNDAMENTAL VARIABLES DEFINITION
 
-    uint256 public timeForProposal;
-    uint256 public timeForCommitment; 
-    uint256 public timeForReveal;
+    uint256 timeForProposal;
+    uint256 timeForCommitment; 
+    uint256 timeForReveal;
     string ballotTitle;
     uint256 public maximumChoicesAllowed;
     address owner;
     uint256 public numberOfChoices;
-    uint256 numofWinners;
+    uint256 public numofWinners;
 
     // Let's initialize structs
 
@@ -61,7 +61,7 @@ contract CommitRevealElections is String_Evaluation {
     }
 
     // Information about the current status of the vote
-    uint256 public numberOfVotesCast = 0;
+    uint256 private numberOfVotesCast = 0;
 
     // The actual votes and vote commits
     bytes32[] private voteCommits;
@@ -71,7 +71,7 @@ contract CommitRevealElections is String_Evaluation {
     event logString(string);
     event newVoteCommit(string, bytes32);
 
-    mapping (address => bool) public proposedCandidates; // Useful for submitting only one choice
+    mapping (address => bool) private proposedCandidates; // Useful for submitting only one choice
 
     ///// FUNDAMENTAL FUNCTIONS
 
@@ -113,7 +113,7 @@ contract CommitRevealElections is String_Evaluation {
         emit newVoteCommit("Vote committed with the following hash:", _voteCommitment);
     }
 
-    mapping (address => bool) public isTrue; // Useful for vote only once
+    mapping (address => bool) private isTrue; // Useful for vote only once
 
     // Function to Reveal the vote
     function revealVote(string _vote, bytes32 _voteCommit) public {
