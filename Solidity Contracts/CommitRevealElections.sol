@@ -20,6 +20,7 @@ contract CommitRevealElections is String_Evaluation {
     uint256 numofWinners;
 
     // Let's initialize structs
+
     struct Candidates {
         string[] candidateList;
         mapping (string => uint256) votesReceived;
@@ -41,7 +42,7 @@ contract CommitRevealElections is String_Evaluation {
                 uint256 _numofWinners) public {
         require(_timeForCommitment >= 20);
         require(_timeForReveal >= 20);
-        require(_timeForProposal >= 20);
+        require(_startingCand.length <= _maximumChoices);
         maximumChoicesAllowed = _maximumChoices;
         timeForProposal = now + _timeForProposal * 1 seconds;
         timeForCommitment = timeForProposal + _timeForCommitment * 1 seconds;
@@ -63,7 +64,7 @@ contract CommitRevealElections is String_Evaluation {
     uint256 public numberOfVotesCast = 0;
 
     // The actual votes and vote commits
-    bytes32[] public voteCommits;
+    bytes32[] private voteCommits;
     mapping(bytes32 => string) voteStatuses; // Either `Committed` or `Revealed`
     
     // Events used to log what's going on in the contract
@@ -94,9 +95,9 @@ contract CommitRevealElections is String_Evaluation {
     function commitVote(bytes32 _voteCommitment, uint256 _ammontare) public {
 
         require(now > timeForProposal, "Proposal period is still going on!");
-        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(now <= timeForCommitment, "Commitment period is over!");
-        require(_ammontare <= v.attemptedVotes[msg.sender], "You finished your voting tokens!");
+        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
+        require(_ammontare <= v.attemptedVotes[msg.sender], "You've finished your voting tokens!");
         
         // Check if this commit has been used before
         bytes memory bytesVoteCommit = bytes(voteStatuses[_voteCommitment]);
