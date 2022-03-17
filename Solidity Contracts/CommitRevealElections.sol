@@ -18,6 +18,7 @@ contract CommitRevealElections is String_Evaluation {
     address owner;
     uint256 public numberOfChoices;
     uint256 public numofWinners;
+    uint256 public amountOfStake;
 
     // Let's initialize structs
 
@@ -28,6 +29,8 @@ contract CommitRevealElections is String_Evaluation {
 
     struct Voter {
         address[] voterList;
+        mapping (address => bool[]) depositStake;
+        mapping (address => uint256) totalStakeOfAddress;
         mapping (address => bytes32[]) voteOfAddress;
         mapping (address => uint256) attemptedVotes;
         mapping(bytes32 => uint256) amountOfEachVote;
@@ -39,7 +42,7 @@ contract CommitRevealElections is String_Evaluation {
     // Let's build our constructor
     constructor(uint256 _timeForProposal, uint256 _timeForCommitment, uint256 _timeForReveal, uint256 _maximumChoices, 
                 string _ballotTitle, address _owner, address[] _listOfWAddress, string[] _startingCand, uint256 _startingV, 
-                uint256 _numofWinners) public {
+                uint256 _numofWinners, uint256 _amountOfStake) public {
         require(_timeForCommitment >= 20);
         require(_timeForReveal >= 20);
         require(_startingCand.length <= _maximumChoices);
@@ -48,6 +51,7 @@ contract CommitRevealElections is String_Evaluation {
         timeForCommitment = timeForProposal + _timeForCommitment * 1 seconds;
         timeForReveal = timeForCommitment + _timeForReveal * 1 seconds;
         ballotTitle = _ballotTitle;
+        amountOfStake = _amountOfStake * 1 ether;
         owner = _owner;
         for (uint256 y = 0; y < _listOfWAddress.length; y++){
             v.voterList.push(_listOfWAddress[y]);
@@ -95,12 +99,13 @@ contract CommitRevealElections is String_Evaluation {
     }
     
     // Function to Commit the vote
-    function commitVote(bytes32 _voteCommitment, uint256 _ammontare) public {
+    function commitVote(bytes32 _voteCommitment, uint256 _ammontare) public payable {
 
         require(now > timeForProposal, "Proposal period is still going on!");
         require(now <= timeForCommitment, "Commitment period is over!");
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(_ammontare <= v.attemptedVotes[msg.sender], "You've finished your voting tokens!");
+        require(msg.value == amountOfStake, "Please send the stake");
         
         // Check if this commit has been used before
         bytes memory bytesVoteCommit = bytes(voteStatuses[_voteCommitment]);
@@ -113,6 +118,8 @@ contract CommitRevealElections is String_Evaluation {
         numberOfVotesCast += _ammontare;
         v.amountOfEachVote[_voteCommitment] = _ammontare;
         v.attemptedVotes[msg.sender] -= _ammontare;
+        v.depositStake[msg.sender].push(true);
+        v.totalStakeOfAddress[msg.sender] += amountOfStake;
         emit newVoteCommit("Vote committed with the following hash:", _voteCommitment);
     }
 
@@ -121,7 +128,12 @@ contract CommitRevealElections is String_Evaluation {
     // Function to Reveal the vote
     function revealVote(string _vote, bytes32 _voteCommit) public {
 
+        // Requirements! Very important to secure the whole process
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
+        for (uint256 tru = 0; tru < v.depositStake[msg.sender].length; tru++){
+            require (v.depositStake[msg.sender][tru] == true, "You didn't deposit the stake for all your votes!");
+        }
+        require (v.depositStake[msg.sender].length == v.voteOfAddress[msg.sender].length, "You didn't deposit the stake for all your votes!");
         require(now > timeForCommitment, "Time is not over! You cannot reveal your vote yet");
         require(now <= timeForReveal, "Revealing period is over!");
         for (uint256 u = 0; u < v.voteOfAddress[msg.sender].length; u++){
@@ -130,14 +142,11 @@ contract CommitRevealElections is String_Evaluation {
             } else {continue;}
         }
         require(isTrue[msg.sender] == true, "You didn't cast this vote!");
-
-        // FIRST: Verify the vote & commit is valid
         bytes memory bytesVoteStatus = bytes(voteStatuses[_voteCommit]); //To be counted, it has to be "Committed"
-
         require(bytesVoteStatus[0] == "C", "This vote was already cast");
         require(_voteCommit == keccak256(_vote), "Vote hash does not match vote commit");
         
-        // NEXT: Count the vote! To count it we take the substring until character "-", and we compare it to the candidates
+       // NEXT: Count the vote! To count it we take the substring until character "-", and we compare it to the candidates
         uint256 lenOfVote = utfStringLength(_vote);
         uint256 divisor;
         for (uint256 i = 1; i<lenOfVote; i++) {
@@ -153,6 +162,8 @@ contract CommitRevealElections is String_Evaluation {
             } else {continue;}
         }
         voteStatuses[_voteCommit] = "Revealed";
+        msg.sender.transfer(amountOfStake);
+        v.totalStakeOfAddress[msg.sender] -= amountOfStake;
         emit newVoteRevealed("Vote revealed and counted with commitment", _voteCommit);
     }
 
@@ -238,4 +249,9 @@ contract CommitRevealElections is String_Evaluation {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         return ballotTitle;
     }
+
+    function balance() external view onlyOwner returns(uint balanceEth) {
+        balanceEth = address(this).balance;
+    }
+
 }
