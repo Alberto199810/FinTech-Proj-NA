@@ -1,7 +1,7 @@
-pragma solidity ^0.4.7;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract String_Evaluation {
 
@@ -19,7 +19,7 @@ contract String_Evaluation {
       return val;
     }
 
-    function getSlice(uint256 begin, uint256 end, string text) internal pure returns(string) {
+    function getSlice(uint256 begin, uint256 end, string memory text) internal pure returns(string memory) {
         bytes memory a = new bytes(end-begin+1);
         for(uint i=0;i<=end-begin;i++){
             a[i] = bytes(text)[i+begin-1];
@@ -27,7 +27,7 @@ contract String_Evaluation {
         return string(a);    
     }
 
-    function finalNumb(string _vote, uint start, uint end) internal pure returns(uint){
+    function finalNumb(string memory _vote, uint start, uint end) internal pure returns(uint){
         string memory subb = getSlice(start, end, _vote);
         uint indexVoto = st2num(subb);
         return(indexVoto);

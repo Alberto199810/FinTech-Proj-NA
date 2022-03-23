@@ -1,8 +1,8 @@
-pragma solidity ^0.4.7;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 import "./String_Evaluation.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.1.0/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract CommitRevealElections is String_Evaluation {
 
@@ -41,13 +41,13 @@ contract CommitRevealElections is String_Evaluation {
 
     // Let's build our constructor
     constructor(uint256 _timeForProposal, uint256 _timeForCommitment, uint256 _timeForReveal, uint256 _maximumChoices, 
-                string _ballotTitle, address _owner, address[] _listOfWAddress, string[] _startingCand, uint256 _startingV, 
-                uint256 _numofWinners, uint256 _amountOfStake) public {
+                string memory _ballotTitle, address _owner, address[] memory _listOfWAddress, string[] memory _startingCand,
+                uint256 _startingV, uint256 _numofWinners, uint256 _amountOfStake) public {
         require(_timeForCommitment >= 20);
         require(_timeForReveal >= 20);
         require(_startingCand.length <= _maximumChoices);
         maximumChoicesAllowed = _maximumChoices;
-        timeForProposal = now + _timeForProposal * 1 seconds;
+        timeForProposal = block.timestamp + _timeForProposal * 1 seconds;
         timeForCommitment = timeForProposal + _timeForCommitment * 1 seconds;
         timeForReveal = timeForCommitment + _timeForReveal * 1 seconds;
         ballotTitle = _ballotTitle;
@@ -82,8 +82,8 @@ contract CommitRevealElections is String_Evaluation {
     ///// FUNDAMENTAL FUNCTIONS
 
     // Function to set the candidates proposed by each voter
-    function setCandidates(string _candidate) public {
-        require(now <= timeForProposal, "Proposal period is over!");
+    function setCandidates(string memory _candidate) public {
+        require(block.timestamp <= timeForProposal, "Proposal period is over!");
         require(numberOfChoices <= maximumChoicesAllowed, "Proposals are over.");
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(proposedCandidates[msg.sender] == false, "You already did your proposal"); //Only one proposal
@@ -101,8 +101,8 @@ contract CommitRevealElections is String_Evaluation {
     // Function to Commit the vote
     function commitVote(bytes32 _voteCommitment, uint256 _ammontare) public payable {
 
-        require(now > timeForProposal, "Proposal period is still going on!");
-        require(now <= timeForCommitment, "Commitment period is over!");
+        require(block.timestamp > timeForProposal, "Proposal period is still going on!");
+        require(block.timestamp <= timeForCommitment, "Commitment period is over!");
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(_ammontare <= v.attemptedVotes[msg.sender], "You've finished your voting tokens!");
         require(msg.value == amountOfStake, "Please send the stake");
@@ -126,7 +126,7 @@ contract CommitRevealElections is String_Evaluation {
     mapping (address => bool) private isTrue; // Useful for vote only once
 
     // Function to Reveal the vote
-    function revealVote(string _vote, bytes32 _voteCommit) public {
+    function revealVote(string memory _vote, bytes32 _voteCommit) public {
 
         // Requirements! Very important to secure the whole process
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
@@ -134,8 +134,8 @@ contract CommitRevealElections is String_Evaluation {
             require (v.depositStake[msg.sender][tru] == true, "You didn't deposit the stake for all your votes!");
         }
         require (v.depositStake[msg.sender].length == v.voteOfAddress[msg.sender].length, "You didn't deposit the stake for all your votes!");
-        require(now > timeForCommitment, "Time is not over! You cannot reveal your vote yet");
-        require(now <= timeForReveal, "Revealing period is over!");
+        require(block.timestamp > timeForCommitment, "Time is not over! You cannot reveal your vote yet");
+        require(block.timestamp <= timeForReveal, "Revealing period is over!");
         for (uint256 u = 0; u < v.voteOfAddress[msg.sender].length; u++){
             if (v.voteOfAddress[msg.sender][u] == _voteCommit){
                 isTrue[msg.sender] = true;
@@ -144,7 +144,7 @@ contract CommitRevealElections is String_Evaluation {
         require(isTrue[msg.sender] == true, "You didn't cast this vote!");
         bytes memory bytesVoteStatus = bytes(voteStatuses[_voteCommit]); //To be counted, it has to be "Committed"
         require(bytesVoteStatus[0] == "C", "This vote was already cast");
-        require(_voteCommit == keccak256(_vote), "Vote hash does not match vote commit");
+        require(_voteCommit == keccak256(abi.encodePacked(_vote)), "Vote hash does not match vote commit");
         
        // NEXT: Count the vote! To count it we take the substring until character "-", and we compare it to the candidates
         uint256 lenOfVote = utfStringLength(_vote);
@@ -162,7 +162,7 @@ contract CommitRevealElections is String_Evaluation {
             } else {continue;}
         }
         voteStatuses[_voteCommit] = "Revealed";
-        msg.sender.transfer(amountOfStake);
+        payable(msg.sender).transfer(amountOfStake);
         v.totalStakeOfAddress[msg.sender] -= amountOfStake;
         emit newVoteRevealed("Vote revealed and counted with commitment", _voteCommit);
     }
@@ -170,9 +170,9 @@ contract CommitRevealElections is String_Evaluation {
     mapping(string => bool) userinList;
 
     // Function to be used after Time for Revealing is over. You can see the winners of the ballot
-    function getWinners() public view onlyOwner returns(string[], uint256[]){
+    function getWinners() public onlyOwner returns(string[] memory, uint256[] memory){
 
-        require(now > timeForReveal, "Revealing period is not over yet!");
+        require(block.timestamp > timeForReveal, "Revealing period is not over yet!");
 
         uint256[] memory store_vars = new uint256[](numofWinners);
         string[] memory Win_Cands = new string[](numofWinners);
@@ -210,42 +210,42 @@ contract CommitRevealElections is String_Evaluation {
     }
 
     // Function to see the proposed candidates up to that moment
-    function showCandidates() public view returns(string[]) {
+    function showCandidates() public view returns(string[] memory) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         return c.candidateList;
     }
 
     // Function to be used after Time for Revealing is over. You can see votes for a single candidate
-    function votesForACandidate(string _candidate) public view onlyOwner returns(uint256) {
-        require(now >= timeForReveal, "Revealing period is not over yet!");
+    function votesForACandidate(string memory _candidate) public view onlyOwner returns(uint256) {
+        require(block.timestamp >= timeForReveal, "Revealing period is not over yet!");
         return c.votesReceived[_candidate];
     }
 
     // Function to see the remaining time for PROPOSAL
     function getRemainingTimeForProposal() public view returns (uint256) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
-        require(now <= timeForProposal, "Proposal period is over!");
-        return timeForProposal - now;
+        require(block.timestamp <= timeForProposal, "Proposal period is over!");
+        return timeForProposal - block.timestamp;
     }
 
     // Function to see the remaining time for COMMITMENT
     function getRemainingTimeForCommitment() public view returns (uint256) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
-        require(now > timeForProposal, "Proposal period is still going on!");
-        require(now <= timeForCommitment, "Commitment period is over!");
-        return timeForCommitment - now;
+        require(block.timestamp > timeForProposal, "Proposal period is still going on!");
+        require(block.timestamp <= timeForCommitment, "Commitment period is over!");
+        return timeForCommitment - block.timestamp;
     }
 
     // Function to see the remaining time for REVEAL
     function getRemainingTimeForReveal() public view returns (uint256) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
-        require(now > timeForCommitment, "Commitment period is still going on!");
-        require(now <= timeForReveal, "Reveal period is over!");
-        return timeForReveal - now;
+        require(block.timestamp > timeForCommitment, "Commitment period is still going on!");
+        require(block.timestamp <= timeForReveal, "Reveal period is over!");
+        return timeForReveal - block.timestamp;
     }
 
     // Function to get title of ballot
-    function getTitle() public view returns (string) {
+    function getTitle() public view returns (string memory) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         return ballotTitle;
     }
