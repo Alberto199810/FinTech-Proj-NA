@@ -72,10 +72,11 @@ contract CommitRevealElections is String_Evaluation {
     mapping(bytes32 => string) voteStatuses; // Either `Committed` or `Revealed`
     
     // Events used to log what's going on in the contract
-    event candidateSet(string);
-    event newVoteCommit(string, bytes32);
-    event newVoteRevealed(string, bytes32);
-    event winnersResults(string);
+    event missingTime(uint256 missingT);
+    event candidateSet(string newCand);
+    event newVoteCommit(string intro1, bytes32 newVoteC);
+    event newVoteRevealed(string intro2, bytes32 newVoteR);
+    event winnersResults(string intro3, string[] winnersN, uint256[] votesOfWinn);
 
     mapping (address => bool) private proposedCandidates; // Useful for submitting only one choice
 
@@ -170,7 +171,7 @@ contract CommitRevealElections is String_Evaluation {
     mapping(string => bool) userinList;
 
     // Function to be used after Time for Revealing is over. You can see the winners of the ballot
-    function getWinners() public onlyOwner returns(string[] memory, uint256[] memory){
+    function getWinners() public onlyOwner returns(string[] memory, uint256[] memory) {
 
         require(block.timestamp > timeForReveal, "Revealing period is not over yet!");
 
@@ -186,8 +187,13 @@ contract CommitRevealElections is String_Evaluation {
             }
             userinList[Win_Cands[cnumb]] = true;  
         }
-        return(Win_Cands, store_vars);   
-        emit winnersResults("Winners revealed and ballot's over!");  
+        emit winnersResults("Winners revealed and ballot's over! Winners:", Win_Cands, store_vars); 
+        
+        for (uint256 wnumb = 0; wnumb < Win_Cands.length; wnumb++) {
+            userinList[Win_Cands[wnumb]] = false;
+        } // Reset of mapping
+
+        return (Win_Cands, store_vars); 
     }
 
     ///// OTHER FUNCTIONS
@@ -222,25 +228,28 @@ contract CommitRevealElections is String_Evaluation {
     }
 
     // Function to see the remaining time for PROPOSAL
-    function getRemainingTimeForProposal() public view returns (uint256) {
+    function getRemainingTimeForProposal() public returns (uint256) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(block.timestamp <= timeForProposal, "Proposal period is over!");
+        emit missingTime(timeForProposal - block.timestamp);
         return timeForProposal - block.timestamp;
     }
 
     // Function to see the remaining time for COMMITMENT
-    function getRemainingTimeForCommitment() public view returns (uint256) {
+    function getRemainingTimeForCommitment() public returns (uint256) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(block.timestamp > timeForProposal, "Proposal period is still going on!");
         require(block.timestamp <= timeForCommitment, "Commitment period is over!");
+        emit missingTime(timeForCommitment - block.timestamp);
         return timeForCommitment - block.timestamp;
     }
 
     // Function to see the remaining time for REVEAL
-    function getRemainingTimeForReveal() public view returns (uint256) {
+    function getRemainingTimeForReveal() public returns (uint256) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         require(block.timestamp > timeForCommitment, "Commitment period is still going on!");
         require(block.timestamp <= timeForReveal, "Reveal period is over!");
+        emit missingTime(timeForReveal - block.timestamp);
         return timeForReveal - block.timestamp;
     }
 
@@ -250,7 +259,7 @@ contract CommitRevealElections is String_Evaluation {
         return ballotTitle;
     }
 
-    function balance() external view onlyOwner returns(uint balanceEth) {
+    function ballotBalance() external view onlyOwner returns(uint balanceEth) {
         balanceEth = address(this).balance;
     }
 
