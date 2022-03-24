@@ -14,6 +14,8 @@ contract CommitRevealElections is String_Evaluation {
     uint256 timeForCommitment; 
     uint256 timeForReveal;
     string ballotTitle;
+    address[] appliersForRights;
+    uint256 startingVotes;
     uint256 public maximumChoicesAllowed;
     address owner;
     uint256 public numberOfChoices;
@@ -51,6 +53,7 @@ contract CommitRevealElections is String_Evaluation {
         timeForCommitment = timeForProposal + _timeForCommitment * 1 seconds;
         timeForReveal = timeForCommitment + _timeForReveal * 1 seconds;
         ballotTitle = _ballotTitle;
+        startingVotes = _startingV;
         amountOfStake = _amountOfStake * 1 ether;
         owner = _owner;
         for (uint256 y = 0; y < _listOfWAddress.length; y++){
@@ -215,6 +218,30 @@ contract CommitRevealElections is String_Evaluation {
         return false;
     }
 
+    // Function to apply for rights
+    function applyForRights() public {
+        for (uint256 votnum = 0; votnum < v.voterList; votnum++){
+            require(msg.sender != v.voterList[votnum], "You already have your voting right!")
+        }
+        require(block.timestamp <= timeForCommitment, "Commitment period is over!");
+        appliersForRights.push(msg.sender);
+    }
+
+    // Function that allows owner to see who applied for vote rights
+    function showApplierForRights() public view onlyOwner returns(address[] memory){
+        require(block.timestamp <= timeForCommitment, "Commitment period is over!");
+        return appliersForRights;
+    }
+
+    // Function that allows owner to give vote rights to the voters who asked for rights
+    function giveRightsToAddresses(address[] memory _newWhiteAddresses) public onlyOwner {
+        require(block.timestamp <= timeForCommitment, "Commitment period is over!");
+        for (uint256 ynum = 0; ynum < _newWhiteAddresses.length; ynum++){
+            v.voterList.push(_newWhiteAddresses[ynum]);
+            v.attemptedVotes[_newWhiteAddresses[ynum]] = startingVotes;
+        }
+    }
+
     // Function to see the proposed candidates up to that moment
     function showCandidates() public view returns(string[] memory) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
@@ -263,4 +290,4 @@ contract CommitRevealElections is String_Evaluation {
         balanceEth = address(this).balance;
     }
 
-}
+}s
