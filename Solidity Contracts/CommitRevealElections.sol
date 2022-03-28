@@ -220,8 +220,8 @@ contract CommitRevealElections is String_Evaluation {
 
     // Function to apply for rights
     function applyForRights() public {
-        for (uint256 votnum = 0; votnum < v.voterList; votnum++){
-            require(msg.sender != v.voterList[votnum], "You already have your voting right!")
+        for (uint256 votnum = 0; votnum < v.voterList.length; votnum++){
+            require(msg.sender != v.voterList[votnum], "You already have your voting right!");
         }
         require(block.timestamp <= timeForCommitment, "Commitment period is over!");
         appliersForRights.push(msg.sender);
@@ -290,4 +290,4 @@ contract CommitRevealElections is String_Evaluation {
         balanceEth = address(this).balance;
     }
 
-}s
+}
