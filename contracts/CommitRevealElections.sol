@@ -17,7 +17,7 @@ contract CommitRevealElections is String_Evaluation {
     address[] appliersForRights;
     uint256 startingVotes;
     uint256 public maximumChoicesAllowed;
-    address owner;
+    address public owner;
     uint256 public numberOfChoices;
     uint256 public numofWinners;
     uint256 public amountOfStake;

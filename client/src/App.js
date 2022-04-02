@@ -1,11 +1,11 @@
 import React from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import SimpleStorageContract from "./contracts/CommitRevealElections.json";
 import getWeb3 from "./getWeb3";
 
 import "./App.css";
 
 export default function App() {
-  const [state, setState] = React.useState({ storageValue: 0, web3: null, accounts: null, contract: null })
+  const [state, setState] = React.useState({ isOwner: false, web3: null, accounts: null, contract: null })
 
   React.useEffect(() => {
     async function web3Init() {
@@ -39,17 +39,15 @@ export default function App() {
   }, [])
 
   React.useEffect(() => {
-    async function runExample (accounts, contract) {
-
-      await contract.methods.set(5).send({ from: accounts[0] })
-      const response = await contract.methods.get().call()
-    
-      setState(value => ({ ...value, storageValue: response }))
-    };
-    if(state.accounts != null && state.contract != null) {
-      runExample(state.accounts, state.contract);
+    async function runExample (contract) {
+      const owner = await contract.methods.owner().call()
+      
+      setState(value => ({ ...value, isOwner: owner}))
     }
-  }, [state.accounts, state.contract])
+    if(state.contract != null) {
+      runExample(state.contract);
+    }
+  }, [state.contract])
 
   
 
@@ -62,13 +60,11 @@ export default function App() {
         <p>Your Truffle Box is installed and ready.</p>
         <h2>Smart Contract Example</h2>
         <p>
-          If your contracts compiled and migrated successfully, below will show
-          a stored value of 5 (by default).
+          If the cntract was deployed successfully I should be able to see that I am owner.
         </p>
-        <p>
-          Try changing the value stored on <strong>line 42</strong> of App.js.
-        </p>
-        <div>The stored value is: {state.storageValue}</div>
+        <div>
+          I {state.isOwner ? 'am' : 'am not'} the owner!
+        </div>
       </div>
     )
   }
