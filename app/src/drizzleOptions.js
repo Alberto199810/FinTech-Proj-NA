@@ -3,13 +3,13 @@ import CommitRevealElections from "./contracts/CommitRevealElections.json";
 
 
 const options = {
-  web3: {
-    block: false,
-    customProvider: new Web3("ws://localhost:7545"),
-  },
+  // web3: {
+  //   block: false,
+  //   customProvider: new Web3("ws://localhost:7545"),
+  // },
   contracts: [CommitRevealElections],
   events: {
-    CommitRevealElections: [],
+    CommitRevealElections: ["newVoteCommit"],
   },
 };
 

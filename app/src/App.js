@@ -5,8 +5,9 @@ import drizzleOptions from "./drizzleOptions";
 import "./App.css";
 import Test from "./components/Test";
 import TestForm from "./components/TestForm";
+import store from './middleware'
 
-const drizzle = new Drizzle(drizzleOptions);
+const drizzle = new Drizzle(drizzleOptions, store);
 
 const App = () => {
   return (

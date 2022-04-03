@@ -77,7 +77,7 @@ contract CommitRevealElections is String_Evaluation {
     // Events used to log what's going on in the contract
     event missingTime(uint256 missingT);
     event candidateSet(string newCand);
-    event newVoteCommit(string intro1, bytes32 newVoteC);
+    event newVoteCommit(string intro1);
     event newVoteRevealed(string intro2, bytes32 newVoteR);
     event winnersResults(string intro3, string[] winnersN, uint256[] votesOfWinn);
 
@@ -124,7 +124,7 @@ contract CommitRevealElections is String_Evaluation {
         v.attemptedVotes[msg.sender] -= _ammontare;
         v.depositStake[msg.sender].push(true);
         v.totalStakeOfAddress[msg.sender] += amountOfStake;
-        emit newVoteCommit("Vote committed with the following hash:", _voteCommitment);
+        emit newVoteCommit("Vote successfully committed!");
     }
 
     mapping (address => bool) private isTrue; // Useful for vote only once
