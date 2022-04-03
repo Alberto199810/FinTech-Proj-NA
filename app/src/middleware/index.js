@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 const contractEventNotifier = store => next => action => {
   if (action.type == EventActions.EVENT_FIRED) {
     const contract = action.name
-    const message = action.event.returnValues.intro1
+    const message = action.event.returnValues[0]
     const display = `${contract}: ${message}`
 
     toast.success(display, { position: toast.POSITION.TOP_RIGHT })

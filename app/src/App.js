@@ -3,9 +3,9 @@ import { DrizzleContext } from "@drizzle/react-plugin";
 import { Drizzle } from "@drizzle/store";
 import drizzleOptions from "./drizzleOptions";
 import "./App.css";
-import Test from "./components/Test";
 import TestForm from "./components/TestForm";
 import store from './middleware'
+
 
 const drizzle = new Drizzle(drizzleOptions, store);
 
