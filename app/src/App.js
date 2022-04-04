@@ -1,31 +1,20 @@
 import React from "react";
-import { DrizzleContext } from "@drizzle/react-plugin";
-import { Drizzle } from "@drizzle/store";
-import drizzleOptions from "./drizzleOptions";
 import "./App.css";
-import TestForm from "./components/TestForm";
-import store from './middleware'
+import 'react-toastify/dist/ReactToastify.css'
+import VoterView from "./components/VoterView";
+import Home from "./components/Home"
+
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
 
-const drizzle = new Drizzle(drizzleOptions, store);
-
-const App = () => {
+const App = ({ drizzle, drizzleState }) => {
   return (
-    <DrizzleContext.Provider drizzle={drizzle}>
-      <DrizzleContext.Consumer>
-        {drizzleContext => {
-          const { drizzle, drizzleState, initialized } = drizzleContext;
-
-          if (!initialized) {
-            return "Loading..."
-          }
-
-          return (
-            <TestForm drizzle={drizzle} drizzleState={drizzleState} />
-          )
-        }}
-      </DrizzleContext.Consumer>
-    </DrizzleContext.Provider>
+    <Router>
+        <Routes>
+            <Route path="/" element={<Home drizzle={drizzle} drizzleState={drizzleState} />} />
+            <Route path='/voterView' element={<VoterView drizzle={drizzle} drizzleState={drizzleState} />} />
+        </Routes>
+    </Router>
   );
 }
 
