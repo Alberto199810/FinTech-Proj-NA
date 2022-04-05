@@ -4,9 +4,9 @@ import {Nav, Navbar, Container} from 'react-bootstrap';
 export default function Navigation() {
 
   return(
-      <Navbar bg="light" expand="">
+      <Navbar fluid="true" className="navbar" bg="light" expand="">
         <Container>
-          <Navbar.Brand href="#home"><strong>Voting DApp</strong></Navbar.Brand>
+          <Navbar.Brand href="/"><strong>Voting DApp</strong></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
