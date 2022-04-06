@@ -17,7 +17,7 @@ export default ({ drizzle, drizzleState, timeLeft, stage }) => {
     <div>
       <Navigation />
       <div className="App">
-        <ToastContainer limit={1}/>
+        <ToastContainer />
           <ClockHeading 
             drizzle={drizzle}
             drizzleState={drizzleState}
@@ -46,7 +46,13 @@ export default ({ drizzle, drizzleState, timeLeft, stage }) => {
                 <RevealForm 
                   drizzle={drizzle} 
                   drizzleState={drizzleState}
-                />:
+                />
+                :
+                stage === "Loading" ?
+                <div className="vote-end">
+                  <p>Loading...</p>
+                </div>
+                :
                 <div className="vote--end">
                 <p>The vote is over, please proceed to the results stage!</p>
                 <Button variant="primary" href="results">Click me to see Results</Button>

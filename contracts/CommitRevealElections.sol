@@ -14,6 +14,7 @@ contract CommitRevealElections is String_Evaluation {
     uint256 public timeForCommitment; 
     uint256 public timeForReveal;
     string ballotTitle;
+    string[] public winners;
     address[] appliersForRights;
     uint256 public startingVotes;
     uint256 public maximumChoicesAllowed;
@@ -68,7 +69,7 @@ contract CommitRevealElections is String_Evaluation {
     }
 
     // Information about the current status of the vote
-    uint256 private numberOfVotesCast = 0;
+    uint256 public numberOfVotesCast = 0;
 
     // The actual votes and vote commits
     bytes32[] private voteCommits;
@@ -196,6 +197,8 @@ contract CommitRevealElections is String_Evaluation {
             userinList[Win_Cands[wnumb]] = false;
         } // Reset of mapping
 
+        winners = Win_Cands;
+
         return (Win_Cands, store_vars); 
     }
 
@@ -284,6 +287,11 @@ contract CommitRevealElections is String_Evaluation {
     function getTitle() public view returns (string memory) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         return ballotTitle;
+    }
+
+
+    function getWhiteListedAccounts() public view returns (address[] memory) {
+        return v.voterList;
     }
 
     function ballotBalance() external view onlyOwner returns(uint balanceEth) {

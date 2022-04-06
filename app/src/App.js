@@ -25,35 +25,53 @@ const App = ({ drizzle, drizzleState }) => {
 }
 
   const [timeLeft, setTimeLeft] = React.useState({
-                                    timeProposal: {},
-                                    timeCommitment: {},
-                                    timeReveal: {}
+                                    timeProposal: [],
+                                    timeCommitment: [],
+                                    timeReveal: []
                                   });
   const [stage, setStage] = React.useState("Loading")
+  const [role, setRole] = React.useState("Guest")
 
-  // console.log(!(Object.keys(timeLeft.timeProposal).length === 0 && timeLeft.timeProposal.constructor === Object))
+  React.useEffect(() => {
+    async function getRole() {
+      const approvedVoters = await drizzle.contracts.CommitRevealElections.methods.getWhiteListedAccounts().call()
+      const owner = await drizzle.contracts.CommitRevealElections.methods.owner().call()
 
+      if (approvedVoters.includes(drizzleState.accounts[0])) {
+        setRole("Voter")
+      } else if (owner.includes(drizzleState.accounts[0])) {
+        setRole("Admin")
+      } else {
+        setRole("Guest")
+      }
+    }
+
+    getRole()
+  }, [])
+
+  
   React.useEffect(() => {
       async function setTimer() {
           const timeProposal = await drizzle.contracts.CommitRevealElections.methods.timeForProposal().call()
           const timeCommitment = await drizzle.contracts.CommitRevealElections.methods.timeForCommitment().call()
           const timeReveal = await drizzle.contracts.CommitRevealElections.methods.timeForReveal().call()
           const timer = setTimeout(() => {
-            if (!(Object.keys(timeLeft.timeProposal).length === 0 && timeLeft.timeProposal.constructor === Object)) {
-              setStage("Proposal")
-            } else if (!(Object.keys(timeLeft.timeCommitment).length === 0 && timeLeft.timeCommitment.constructor === Object)) {
-              setStage("Commitment")
-            } else if (!(Object.keys(timeLeft.timeReveal).length === 0 && timeLeft.timeReveal.constructor === Object)) {
-              setStage("Reveal")
-            } else {
-              setStage("Vote Over")
-            }
-
             setTimeLeft({
               timeProposal: calculateTimeLeft(timeProposal),
               timeCommitment: calculateTimeLeft(timeCommitment),
               timeReveal: calculateTimeLeft(timeReveal)
             })
+
+            if (!((Object.keys(timeLeft.timeProposal).length === 0 && timeLeft.timeProposal.constructor === Object) || timeLeft.timeProposal.constructor === Array)) {
+              setStage("Proposal")
+            } else if (!((Object.keys(timeLeft.timeCommitment).length === 0 && timeLeft.timeCommitment.constructor === Object) || timeLeft.timeCommitment.constructor === Array)) {
+              setStage("Commitment")
+            } else if (!((Object.keys(timeLeft.timeReveal).length === 0 && timeLeft.timeReveal.constructor === Object) || timeLeft.timeReveal.constructor === Array)) {
+              setStage("Reveal")
+            } else if (timeLeft.timeProposal.constructor === Array) {
+            } else {
+              setStage("Vote Over")
+            }
           }, 1000)
           return timer
       }
@@ -67,8 +85,7 @@ const App = ({ drizzle, drizzleState }) => {
     <Router>
         <Routes>
             <Route path="/" element={<Home drizzle={drizzle} drizzleState={drizzleState} />} />
-            
-            <Route path='/voterView' element={<VoterDashboard drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/>} />
+            <Route path='/voterView' element={role === "Voter" ? <VoterDashboard drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/> : <h1>Fuck Off!</h1>} />
         </Routes>
     </Router>
   );
