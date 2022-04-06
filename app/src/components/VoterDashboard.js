@@ -6,6 +6,8 @@ import Navigation from "./Navigation"
 import ClockHeading from "./subComponents/ClockHeading"
 import BallotInfo from "./subComponents/BallotInfo"
 import ProposalForm from "./VoterDashComps/ProposalForm"
+import RevealForm from "./VoterDashComps/RevealForm"
+import { Button, Form } from 'react-bootstrap';
 
 const { AccountData, ContractData, ContractForm } = newContextComponents;
 
@@ -15,7 +17,7 @@ export default ({ drizzle, drizzleState, timeLeft, stage }) => {
     <div>
       <Navigation />
       <div className="App">
-        <ToastContainer />
+        <ToastContainer limit={1}/>
           <ClockHeading 
             drizzle={drizzle}
             drizzleState={drizzleState}
@@ -39,8 +41,16 @@ export default ({ drizzle, drizzleState, timeLeft, stage }) => {
                   drizzle={drizzle} 
                   drizzleState={drizzleState}
                 />
-                : <p>Hey!</p>}
-              
+                :
+                stage === "Reveal" ?
+                <RevealForm 
+                  drizzle={drizzle} 
+                  drizzleState={drizzleState}
+                />:
+                <div className="vote--end">
+                <p>The vote is over, please proceed to the results stage!</p>
+                <Button variant="primary" href="results">Click me to see Results</Button>
+                </div>}
               
           </div> 
       </div>

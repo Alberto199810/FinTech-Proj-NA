@@ -25,11 +25,13 @@ const App = ({ drizzle, drizzleState }) => {
 }
 
   const [timeLeft, setTimeLeft] = React.useState({
-                                    timeProposal: "",
-                                    timeCommitment: "",
-                                    timeReveal: ""
+                                    timeProposal: {},
+                                    timeCommitment: {},
+                                    timeReveal: {}
                                   });
-  const [stage, setStage] = React.useState("")
+  const [stage, setStage] = React.useState("Loading")
+
+  // console.log(!(Object.keys(timeLeft.timeProposal).length === 0 && timeLeft.timeProposal.constructor === Object))
 
   React.useEffect(() => {
       async function setTimer() {
@@ -37,23 +39,21 @@ const App = ({ drizzle, drizzleState }) => {
           const timeCommitment = await drizzle.contracts.CommitRevealElections.methods.timeForCommitment().call()
           const timeReveal = await drizzle.contracts.CommitRevealElections.methods.timeForReveal().call()
           const timer = setTimeout(() => {
-              setTimeLeft({
-                timeProposal: calculateTimeLeft(timeProposal),
-                timeCommitment: calculateTimeLeft(timeCommitment),
-                timeReveal: calculateTimeLeft(timeReveal)
-              })
-              
-              
-              if (!(Object.keys(timeLeft.timeProposal).length === 0 && timeLeft.timeProposal.constructor === Object)) {
-                setStage("Proposal")
-              } else if (!(Object.keys(timeLeft.timeCommitment).length === 0 && timeLeft.timeCommitment.constructor === Object)) {
-                setStage("Commitment")
-              } else if (!(Object.keys(timeLeft.timeReveal).length === 0 && timeLeft.timeReveal.constructor === Object)) {
-                setStage("Reveal")
-              } else {
-                setStage("End")
-              }
+            if (!(Object.keys(timeLeft.timeProposal).length === 0 && timeLeft.timeProposal.constructor === Object)) {
+              setStage("Proposal")
+            } else if (!(Object.keys(timeLeft.timeCommitment).length === 0 && timeLeft.timeCommitment.constructor === Object)) {
+              setStage("Commitment")
+            } else if (!(Object.keys(timeLeft.timeReveal).length === 0 && timeLeft.timeReveal.constructor === Object)) {
+              setStage("Reveal")
+            } else {
+              setStage("Vote Over")
+            }
 
+            setTimeLeft({
+              timeProposal: calculateTimeLeft(timeProposal),
+              timeCommitment: calculateTimeLeft(timeCommitment),
+              timeReveal: calculateTimeLeft(timeReveal)
+            })
           }, 1000)
           return timer
       }
@@ -67,6 +67,7 @@ const App = ({ drizzle, drizzleState }) => {
     <Router>
         <Routes>
             <Route path="/" element={<Home drizzle={drizzle} drizzleState={drizzleState} />} />
+            
             <Route path='/voterView' element={<VoterDashboard drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/>} />
         </Routes>
     </Router>

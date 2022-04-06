@@ -2,26 +2,35 @@ import React from 'react'
 import { toast } from 'react-toastify'
 import { Button, Form } from 'react-bootstrap';
 
+
 export default function CommitVoteForm({ drizzle, drizzleState }) {
     const utils = drizzle.web3.utils
 
-    const stateApp = {
-        vote: "",
-        password: "",
-        votePoints: 0
-    };
+    const [vote, setVote] = React.useState("")
+    const [password, setPassword] = React.useState("")
+    const [votePoints, setVotePoints] = React.useState(0)
 
-    const handleChange = (e) => {
-        stateApp[e.target.id] = e.target.value;
+    const handleChangeVote = (e) => {
+      setVote(e.target.value)
+    }
+
+    const handleChangePass = (e) => {
+      setPassword(e.target.value)
+    }
+
+    const handleChangePoints = (e) => {
+      setVotePoints(e.target.value)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        const convertedVote = utils.soliditySha3(stateApp.vote + '-' + stateApp.password)
+        const convertedVote = utils.soliditySha3(vote + '-' + password)
+
+        console.log(convertedVote, votePoints)
 
         drizzle.contracts.CommitRevealElections
-            .methods.commitVote(convertedVote, stateApp.votePoints)
+            .methods.commitVote(convertedVote, votePoints)
             .send({value: 1000000000000000000})
             .then(res => console.log(res))
             .catch(err => {
@@ -35,16 +44,16 @@ export default function CommitVoteForm({ drizzle, drizzleState }) {
     return (
         <Form className="commit-form" onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
-          <Form.Control type="string" id="vote" onChange={handleChange} placeholder="Input candidate name" />
+          <Form.Control type="string" id="vote" onChange={handleChangeVote} placeholder="Input candidate name" />
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Control type="password" id="password" onChange={handleChange} placeholder="Password" />
+          <Form.Control type="password" id="password" onChange={handleChangePass} placeholder="Password" />
           <Form.Text>We do not store your passwords or personal information!</Form.Text>
         </Form.Group>
       
         <Form.Group className="mb-3">
-          <Form.Control type="number" id="votePoints" onChange={handleChange} placeholder="Input number of votes" />
+          <Form.Control type="number" id="votePoints" onChange={handleChangePoints} placeholder="Input number of votes" />
         </Form.Group>
 
         <Button variant="primary" type="submit">
