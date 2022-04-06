@@ -14,7 +14,6 @@ contract CommitRevealElections is String_Evaluation {
     uint256 public timeForCommitment; 
     uint256 public timeForReveal;
     string ballotTitle;
-    string[] public winners;
     address[] appliersForRights;
     uint256 public startingVotes;
     uint256 public maximumChoicesAllowed;
@@ -27,6 +26,7 @@ contract CommitRevealElections is String_Evaluation {
 
     struct Candidates {
         string[] candidateList;
+        string[] winners;
         mapping (string => uint256) votesReceived;
     }
 
@@ -197,7 +197,7 @@ contract CommitRevealElections is String_Evaluation {
             userinList[Win_Cands[wnumb]] = false;
         } // Reset of mapping
 
-        winners = Win_Cands;
+        c.winners = Win_Cands;
 
         return (Win_Cands, store_vars); 
     }
@@ -257,6 +257,10 @@ contract CommitRevealElections is String_Evaluation {
         return c.votesReceived[_candidate];
     }
 
+    function returnWinners() public view returns(string[] memory) {
+        return c.winners;
+    }
+
     // Function to see the remaining time for PROPOSAL
     function getRemainingTimeForProposal() public returns (uint256) {
         require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
@@ -285,7 +289,6 @@ contract CommitRevealElections is String_Evaluation {
 
     // Function to get title of ballot
     function getTitle() public view returns (string memory) {
-        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
         return ballotTitle;
     }
 

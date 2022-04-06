@@ -12,6 +12,7 @@ export default function Navigation() {
             <Nav className="me-auto">
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/voterView">Voting Dashboard</Nav.Link>
+              <Nav.Link href="/results">Results</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

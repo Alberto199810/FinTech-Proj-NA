@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import VoterDashboard from "./components/VoterDashboard";
 import Home from "./components/Home"
 import NoAccess from "./components/NoAccess";
+import Results from "./components/Results";
 
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
@@ -86,6 +87,7 @@ const App = ({ drizzle, drizzleState }) => {
         <Routes>
             <Route path="/" element={<Home drizzle={drizzle} drizzleState={drizzleState} />} />
             <Route path='/voterView' element={role === "Voter" || role === "" ? <VoterDashboard drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/> : <NoAccess />} />
+            <Route path="/results" element={<Results drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/>} />
         </Routes>
     </Router>
   );

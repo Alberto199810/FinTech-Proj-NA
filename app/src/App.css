@@ -13,6 +13,10 @@
   margin: 2rem auto auto;
 }
 
+.section > ol > li {
+  font-size: large;
+}
+
 .commit-form {
   padding-top: 25px;
 }
