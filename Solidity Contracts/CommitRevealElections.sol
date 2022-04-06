@@ -10,9 +10,9 @@ contract CommitRevealElections is String_Evaluation {
 
     ///// FUNDAMENTAL VARIABLES DEFINITION
 
-    uint256 timeForProposal;
-    uint256 timeForCommitment; 
-    uint256 timeForReveal;
+    uint256 public timeForProposal;
+    uint256 public timeForCommitment; 
+    uint256 public timeForReveal;
     string ballotTitle;
     address[] appliersForRights;
     uint256 startingVotes;
