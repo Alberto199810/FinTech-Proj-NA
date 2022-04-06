@@ -13,6 +13,7 @@ export default function Navigation() {
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/voterView">Voting Dashboard</Nav.Link>
               <Nav.Link href="/results">Results</Nav.Link>
+              <Nav.Link href="/guestView">Apply for voting access</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

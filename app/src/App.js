@@ -7,6 +7,7 @@ import NoAccess from "./components/NoAccess";
 import Results from "./components/Results";
 
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import AccessApplicationForm from "./components/AccessApplicationForm";
 
 
 const App = ({ drizzle, drizzleState }) => {
@@ -88,6 +89,7 @@ const App = ({ drizzle, drizzleState }) => {
             <Route path="/" element={<Home drizzle={drizzle} drizzleState={drizzleState} />} />
             <Route path='/voterView' element={role === "Voter" || role === "" ? <VoterDashboard drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/> : <NoAccess />} />
             <Route path="/results" element={<Results drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/>} />
+            <Route path="/guestView" element={role === "Guest" || role === "" ? <AccessApplicationForm drizzle={drizzle} drizzleState={drizzleState} stage={stage}/>: <NoAccess />} />
         </Routes>
     </Router>
   );

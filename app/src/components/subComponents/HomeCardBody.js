@@ -30,14 +30,20 @@ export default ({ hash }) => {
                 <Button href="/voterView" variant="primary">Go to Voter Dashboard!</Button>
             </Card.Body> 
         )
-    } else {
+    } else if (hash === '#guestInfo') {
         return (
             <Card.Body>
-                <Card.Title>TBD</Card.Title>
+                <Card.Title>How to participate in this ballot?</Card.Title>
                 <Card.Text>
-                With supporting text below as a natural lead-in to additional content.
+                Participating in any vote requires an approved ethereum account, 
+                any interaction with the contract by accounts that have ot been granted access
+                will be reverted and result in a gas fee for the sender!
+                <br />
+                <br />
+                If you dont already own a whitelisted account you can apply by going to the
+                <a href="/guestView"> Apply for voting access</a> page.
                 </Card.Text>
-                <Button href="/voterView" variant="primary">Go to Voter Dashboard!</Button>
+                <Button href="/guestView" variant="primary">Apply for rights!</Button>
             </Card.Body> 
         ) 
     }

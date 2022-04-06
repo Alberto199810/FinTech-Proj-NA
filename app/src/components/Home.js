@@ -27,10 +27,10 @@ export default function Home({ drizzle, drizzleState }) {
                   <Nav.Link href="#voterInfo">Voters</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href="#link">Guests</Nav.Link>
+                  <Nav.Link href="#guestInfo">Guests</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href="#link2">Admin</Nav.Link>
+                  <Nav.Link href="#adminInfo">Admin</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Card.Header>
