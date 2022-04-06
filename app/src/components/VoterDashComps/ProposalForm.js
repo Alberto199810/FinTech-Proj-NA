@@ -3,14 +3,15 @@ import { toast } from 'react-toastify'
 import { Button, Form } from 'react-bootstrap';
 
 export default function ProposalForm({ drizzle, drizzleState }) {
-    const utils = drizzle.web3.utils
 
-    const stateApp = {
-        candidateProposal: ""
-    };
+    const [stateApp, setStateApp] = React.useState({
+                        candidateProposal: ""
+                      })
 
     const handleChange = (e) => {
-        stateApp[e.target.id] = e.target.value;
+      setStateApp({
+        [e.target.id] : e.target.value
+      })
     }
 
     const handleSubmit = (e) => {

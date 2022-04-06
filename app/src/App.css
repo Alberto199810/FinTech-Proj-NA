@@ -3,6 +3,10 @@
   margin: 2rem;
 }
 
+.App > h2 {
+  padding-bottom: 25px;
+}
+
 .section {
   text-align: left;
   max-width: 720px;
@@ -48,6 +52,12 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
+  font-size: large;
+}
+
+.vote--end {
+  padding-top: 20px;
+  text-align: center;
   font-size: large;
 }
 
