@@ -3,6 +3,7 @@ import "./App.css";
 import 'react-toastify/dist/ReactToastify.css'
 import VoterDashboard from "./components/VoterDashboard";
 import Home from "./components/Home"
+import NoAccess from "./components/NoAccess";
 
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
@@ -30,7 +31,7 @@ const App = ({ drizzle, drizzleState }) => {
                                     timeReveal: []
                                   });
   const [stage, setStage] = React.useState("Loading")
-  const [role, setRole] = React.useState("Guest")
+  const [role, setRole] = React.useState("")
 
   React.useEffect(() => {
     async function getRole() {
@@ -49,7 +50,6 @@ const App = ({ drizzle, drizzleState }) => {
     getRole()
   }, [])
 
-  
   React.useEffect(() => {
       async function setTimer() {
           const timeProposal = await drizzle.contracts.CommitRevealElections.methods.timeForProposal().call()
@@ -85,7 +85,7 @@ const App = ({ drizzle, drizzleState }) => {
     <Router>
         <Routes>
             <Route path="/" element={<Home drizzle={drizzle} drizzleState={drizzleState} />} />
-            <Route path='/voterView' element={role === "Voter" ? <VoterDashboard drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/> : <h1>Fuck Off!</h1>} />
+            <Route path='/voterView' element={role === "Voter" || role === "" ? <VoterDashboard drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/> : <NoAccess />} />
         </Routes>
     </Router>
   );
