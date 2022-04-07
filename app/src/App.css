@@ -72,3 +72,17 @@ h1 {
 .clocks--title {
   font-size: 26;
 }
+
+.table--div {
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.table--stats {
+  width: 100%;
+}
+
+.table--th {
+  width: 50%;
+}

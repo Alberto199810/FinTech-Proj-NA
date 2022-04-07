@@ -70,6 +70,7 @@ contract CommitRevealElections is String_Evaluation {
 
     // Information about the current status of the vote
     uint256 public numberOfVotesCast = 0;
+    uint256 public numberOfVotesRevealed =0;
 
     // The actual votes and vote commits
     bytes32[] private voteCommits;
@@ -164,6 +165,7 @@ contract CommitRevealElections is String_Evaluation {
         for (uint256 j = 0; j < numberOfChoices; j++){
             if (keccak256(abi.encodePacked(finalVote)) == keccak256(abi.encodePacked(c.candidateList[j]))){
                 c.votesReceived[c.candidateList[j]] += v.amountOfEachVote[_voteCommit];
+                numberOfVotesRevealed += v.amountOfEachVote[_voteCommit];
             } else {continue;}
         }
         voteStatuses[_voteCommit] = "Revealed";
@@ -253,7 +255,8 @@ contract CommitRevealElections is String_Evaluation {
 
     // Function to be used after Time for Revealing is over. You can see votes for a single candidate
     function votesForACandidate(string memory _candidate) public view onlyOwner returns(uint256) {
-        require(block.timestamp >= timeForReveal, "Revealing period is not over yet!");
+        // Watch the vote unfold in real time as the admin
+        // require(block.timestamp > timeForReveal, "Revealing period is not over yet!");
         return c.votesReceived[_candidate];
     }
 

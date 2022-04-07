@@ -4,8 +4,8 @@ module.exports = function(deployer) {
 
   deployer.deploy(CommitRevealElections, 
                   0, /*_timeForProposal*/
-                  120, /*_timeForCommitment*/
-                  120, /*_timeForReveal*/
+                  30, /*_timeForCommitment*/
+                  30, /*_timeForReveal*/
                   5, /*_maximumChoices*/
                   "Test Election", /*_ballotTitle*/ 
                   "0xCB5e34D036Cb39B2C00177a063CD3E8ecBa6Cd50", /*_owner*/

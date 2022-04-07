@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify'
 import { toast } from 'react-toastify'
 import Navigation from "./Navigation"
 import ClockHeading from "./subComponents/ClockHeading"
+import VotingResults from "./subComponents/VotingResults"
 
 
 const { ContractData, ContractForm } = newContextComponents;
@@ -48,21 +49,12 @@ export default ({ drizzle, drizzleState, timeLeft, stage }) => {
                 stage === "Vote Over" && winners.length === 0 ? 
                 <h4>The Admin has not revealed final results! <a href="/">Back to homepage</a></h4>
                 :
-                <div>
-                    <h4>List of the ballot winners in order of most votes received:</h4>
-                    <ol>
-                        {winners.map(winner => <li key={winner}>{winner}</li>)}
-                    </ol>
-                </div>
-                }
-                
-                
-                {/* <ContractForm
+                <VotingResults
                     drizzle={drizzle}
                     drizzleState={drizzleState}
-                    contract="CommitRevealElections"
-                    method="getWinners"
-                /> */}
+                    winners={winners}
+                />
+                }
             </div> 
         </div>
         </div>
