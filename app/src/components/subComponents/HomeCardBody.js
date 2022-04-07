@@ -68,7 +68,7 @@ export default ({ hash }) => {
                 see you there!
                 </p>
                 </Card.Text>
-                <Button href="/guestView" variant="primary">Apply for rights!</Button>
+                <Button href="/adminView" variant="primary">Take me to the Admin Dashboard</Button>
             </Card.Body> 
         ) 
     }
