@@ -9,6 +9,7 @@ import Results from "./components/Results";
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import AccessApplicationForm from "./components/AccessApplicationForm";
 import AdminDashboard from "./components/AdminDashboard";
+import 'mdbreact/dist/css/mdb.css';
 
 
 const App = ({ drizzle, drizzleState }) => {

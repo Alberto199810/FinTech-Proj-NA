@@ -25,6 +25,18 @@
   box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
 }
 
+.linkText {
+  font-size: medium;
+  color: black;
+  transition: transform .2s;
+  /* padding: 10px; */
+  margin: 0 auto;
+}
+
+.linkText:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
 .clock--title {
   width: 225px;
   float: left;
@@ -85,4 +97,12 @@ h1 {
 
 .table--th {
   width: 50%;
+}
+
+input[type="checkbox"] {
+  margin-left: 0.75rem;
+}
+
+.listOfApps {
+  /* box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1); */
 }
