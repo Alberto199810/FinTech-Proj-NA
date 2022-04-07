@@ -42,6 +42,31 @@ export default ({ hash }) => {
                 <br />
                 If you dont already own a whitelisted account you can apply by going to the
                 <a href="/guestView"> Apply for voting access</a> page.
+                <br />
+                <p>Results are visible for all accounts after the end of the ballot,
+                    to see the stage of the ballot and the results after reveal head ot <a href="/results">Results</a>
+                </p>
+                </Card.Text>
+                <Button href="/guestView" variant="primary">Apply for rights!</Button>
+            </Card.Body> 
+        ) 
+    }  else {
+        return (
+            <Card.Body>
+                <Card.Title>Admin: tools and tasks!</Card.Title>
+                <Card.Text>
+                <p>As the admin of this ballot your responsibilities do not end with the
+                contract deployment, there are a few key tasks to perform!</p>
+                <p>First one is to admit new accounts to the vote by granting voter rights as you see fit!</p>
+                <p>Next once the reveal stage is over you are the only one who  can reveal who won the ellecton</p>
+                Finally, while the rest of the participants can see who won, you have access to a few
+                extra statistics meant to help you with the decision making process, you can decide to share those,
+                after the end of the ballot.
+                <br />
+                <br />
+                <p>All of these can be performed in the <a href="/adminView"><strong>Admin Dashboard</strong></a>,
+                see you there!
+                </p>
                 </Card.Text>
                 <Button href="/guestView" variant="primary">Apply for rights!</Button>
             </Card.Body> 
