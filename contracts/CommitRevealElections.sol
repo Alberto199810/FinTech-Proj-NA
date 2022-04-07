@@ -191,7 +191,7 @@ contract CommitRevealElections is String_Evaluation {
             }
             userinList[Win_Cands[cnumb]] = true;  
         }
-        emit winnersResults("Winners revealed and ballot's over! Winners:", Win_Cands, store_vars); 
+        emit winnersResults("Winners revealed and ballot's over!", Win_Cands, store_vars); 
         
         for (uint256 wnumb = 0; wnumb < Win_Cands.length; wnumb++) {
             userinList[Win_Cands[wnumb]] = false;
@@ -247,7 +247,7 @@ contract CommitRevealElections is String_Evaluation {
 
     // Function to see the proposed candidates up to that moment
     function showCandidates() public view returns(string[] memory) {
-        require(checkifWhitelisted(msg.sender) == true, "You're not allowed to participate in this ballot");
+        require((msg.sender == owner || checkifWhitelisted(msg.sender) == true), "You're not allowed to participate in this ballot");
         return c.candidateList;
     }
 

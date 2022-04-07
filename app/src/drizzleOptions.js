@@ -9,7 +9,7 @@ const options = {
   // },
   contracts: [CommitRevealElections],
   events: {
-    CommitRevealElections: ["newVoteCommit", "missingTime", "candidateSet", "newVoteRevealed"],
+    CommitRevealElections: ["newVoteCommit", "missingTime", "candidateSet", "newVoteRevealed", "winnersResults"],
   },
 };
 

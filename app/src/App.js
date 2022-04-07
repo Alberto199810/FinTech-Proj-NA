@@ -3,11 +3,12 @@ import "./App.css";
 import 'react-toastify/dist/ReactToastify.css'
 import VoterDashboard from "./components/VoterDashboard";
 import Home from "./components/Home"
-import NoAccess from "./components/NoAccess";
+import NoAccess from "./components/subComponents/NoAccess";
 import Results from "./components/Results";
 
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import AccessApplicationForm from "./components/AccessApplicationForm";
+import AdminDashboard from "./components/AdminDashboard";
 
 
 const App = ({ drizzle, drizzleState }) => {
@@ -88,8 +89,9 @@ const App = ({ drizzle, drizzleState }) => {
         <Routes>
             <Route path="/" element={<Home drizzle={drizzle} drizzleState={drizzleState} />} />
             <Route path='/voterView' element={role === "Voter" || role === "" ? <VoterDashboard drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/> : <NoAccess />} />
-            <Route path="/results" element={<Results drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/>} />
+            <Route path='/adminView' element={role === "Admin" || role === "" ? <AdminDashboard drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/> : <NoAccess />} />
             <Route path="/guestView" element={role === "Guest" || role === "" ? <AccessApplicationForm drizzle={drizzle} drizzleState={drizzleState} stage={stage}/>: <NoAccess />} />
+            <Route path="/results" element={<Results drizzle={drizzle} drizzleState={drizzleState} timeLeft={timeLeft} stage={stage}/>} />
         </Routes>
     </Router>
   );
