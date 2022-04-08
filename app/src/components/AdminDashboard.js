@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify"
 import VotingStats from "./AdminComps/VotingStats"
 import VotingResults from "./subComponents/VotingResults"
 import NewVoterApproval from "./AdminComps/NewVoterApproval"
+import ErrorBoundary from "./subComponents/ErrorBoundary"
 
 const { ContractData, ContractForm } = newContextComponents;
 
@@ -50,7 +51,7 @@ export default ({ drizzle, drizzleState, timeLeft, stage }) => {
                 <p>Loading...</p>
                 :
                 stage != "Vote Over" && stage != "Reveal" ? 
-                    <div>
+                    <ErrorBoundary>
                     <NewVoterApproval
                         drizzle={drizzle}
                         drizzleState={drizzleState}
@@ -60,7 +61,7 @@ export default ({ drizzle, drizzleState, timeLeft, stage }) => {
                         drizzleState={drizzleState}
                         winners={winners}
                     />
-                    </div>
+                    </ErrorBoundary>
                 :
                 stage === "Reveal" ?
                     <VotingStats
