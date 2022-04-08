@@ -8,6 +8,7 @@ const contractEventNotifier = store => next => action => {
     const message = action.event.returnValues[0]
     const display = `${contractEvent}: ${message}`
 
+    toast.clearWaitingQueue()
     toast.success(display, { position: toast.POSITION.TOP_RIGHT })
   }
   return next(action)

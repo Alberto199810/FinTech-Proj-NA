@@ -17,7 +17,7 @@ export default ({ drizzle, drizzleState, timeLeft, stage }) => {
     <div>
       <Navigation />
       <div className="App">
-        <ToastContainer />
+        <ToastContainer limit={1}/>
           <ClockHeading 
             drizzle={drizzle}
             drizzleState={drizzleState}
