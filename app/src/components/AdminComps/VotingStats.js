@@ -23,43 +23,40 @@ export default ({ drizzle, drizzleState, winners }) => {
         ]
       }
 
-    const [votesByCand, setVotesByCandidate] = React.useState({})
     const [chartData, setChartData] =React.useState(sampleData)
 
     React.useEffect(() => {
         async function getData() {
+            let votesByCand = {}
             const candidates = await drizzle.contracts.CommitRevealElections.methods.showCandidates().call()
             for (let i = 0; i < candidates.length; i++) {
                 const votes = await drizzle.contracts.CommitRevealElections.methods.votesForACandidate(candidates[i]).call()
-                setVotesByCandidate((prevState) => {
-                    // console.log(prevState)
-                    return {
-                        ...prevState,
-                        [candidates[i]]: votes
-                    }
-                })
+                votesByCand[candidates[i]] = votes
             }
-            
+            return votesByCand
         }
 
-        getData()
-
-        const data = {
-            labels: Object.keys(votesByCand),
-            datasets: [
-              {
-                label: "Current ballot standings",
-                data: Object.values(votesByCand),
-                backgroundColor: "#0275d8",
-                borderWidth: 1,
-                borderColor: "#000000",
+        getData().then(votesByCand => {
+            const data = {
+                labels: Object.keys(votesByCand),
+                datasets: [
+                  {
+                    label: "Current ballot standings",
+                    data: Object.values(votesByCand),
+                    backgroundColor: "#0275d8",
+                    borderWidth: 1,
+                    borderColor: "#000000",
+                  }
+                ]
               }
-            ]
-          }
+    
+            setChartData(data)
+        })
 
-        setChartData(data)
+        
+
+
     }, [])
-
 
 
     return (
