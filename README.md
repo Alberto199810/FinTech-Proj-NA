@@ -16,15 +16,23 @@ To develop your Heroku App, so that other people are able to vote on your ballot
 
    INFURA_API_KEY="..." (you can find the Key in the Infura dashboard changing the endpoint in "Rinkeby" and taking the last part of the link)
    MNEMONIC="zone seek .." (12 words phrase of your Metamask account)
+   
+   Example of Infura Key:
+   ![Alt text](/Immagine.png?raw=true "Optional Title")
 
 4) In the folder "migrations", change the parameters of the file 3_CommitRevealElections.js and input the parameters of your ballot
 5) Now, just run:
+
    `truffle develop`
+   
    `truffle migrate --reset --network rinkeby`
+
    With these commands, your contract will be developed in the Rinkeby Testnet. It's crucial that your accounts own some Test ETH (you can add some at https://faucets.chain.link/rinkeby).
+   
 6) Now, go back to the root directory (You can press `Ctrl-d`)
 7) Run: `cd app`
 8) Once you're in the app folder, execute the following commands:
+
    `heroku login` (So that you connect your Heroku account to the command prompt)
    `git init`
    `git add .`
@@ -33,6 +41,7 @@ To develop your Heroku App, so that other people are able to vote on your ballot
    `git push heroku master`
    
    Once the process is completed, just run:
+   
    `heroku open`
    
 ### If your computer has low memory, you can encounter an error. Just reload the app.
