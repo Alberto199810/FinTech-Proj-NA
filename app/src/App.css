@@ -1,0 +1,108 @@
+.App {
+  text-align: center;
+  margin: 2rem;
+}
+
+.App > h2 {
+  padding-bottom: 25px;
+}
+
+.section {
+  text-align: left;
+  max-width: 720px;
+  margin: 2rem auto auto;
+}
+
+.section > ol > li {
+  font-size: large;
+}
+
+.commit-form {
+  padding-top: 25px;
+}
+
+.navbar {
+  box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
+}
+
+.linkText {
+  font-size: medium;
+  color: black;
+  transition: transform .2s;
+  /* padding: 10px; */
+  margin: 0 auto;
+}
+
+.linkText:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.clock--title {
+  width: 225px;
+  float: left;
+  align-items: left;
+  }
+
+.clocks {
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 30px;
+}
+
+.clock {
+  margin: 0 auto;
+  height: 10px;
+  width: 500px;
+}
+
+.voter--info {
+  display: flex;
+}
+
+.voter--info > div > h3 {
+  font-size: 22;
+}
+
+.voter--info > div {
+  flex: 1 1 0px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  font-size: large;
+}
+
+.vote--end {
+  padding-top: 20px;
+  text-align: center;
+  font-size: large;
+}
+
+h1 {
+  padding-bottom: 30px;
+}
+
+.clocks--title {
+  font-size: 26;
+}
+
+.table--div {
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.table--stats {
+  width: 100%;
+}
+
+.table--th {
+  width: 50%;
+}
+
+input[type="checkbox"] {
+  margin-left: 0.75rem;
+}
+
+.listOfApps {
+  /* box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1); */
+}
