@@ -13,8 +13,10 @@ To develop your Heroku App, so that other people are able to vote on your ballot
 1) Clone this repository with `git clone https://github.com/Alberto199810/FinTech-Proj-NA.git`
 2) Change your directory in the root of the newly created folder with `cd ...`
 3) Once you're located in the repository, add the .env file, with:
+
    INFURA_API_KEY="..." (you can find the Key in the Infura dashboard changing the endpoint in "Rinkeby" and taking the last part of the link)
    MNEMONIC="zone seek .." (12 words phrase of your Metamask account)
+
 4) In the folder "migrations", change the parameters of the file 3_CommitRevealElections.js and input the parameters of your ballot
 5) Now, just run:
    `truffle develop`
