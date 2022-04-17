@@ -19,8 +19,7 @@ To develop your Heroku App, so that other people are able to vote on your ballot
    
    Example of Infura Key:
    
-   ![Alt text](/Immagine.png?raw=true "Optional Title")
-   <img src="https://github.com/Alberto199810/FinTech-Proj-NA/blob/main/Immagine.png" width="100">
+   <img src="https://github.com/Alberto199810/FinTech-Proj-NA/blob/main/Immagine.png" width="600">
 
 4) In the folder "migrations", change the parameters of the file 3_CommitRevealElections.js and input the parameters of your ballot
 5) Now, just run:
