@@ -18,7 +18,9 @@ To develop your Heroku App, so that other people are able to vote on your ballot
    MNEMONIC="zone seek .." (12 words phrase of your Metamask account)
    
    Example of Infura Key:
+   
    ![Alt text](/Immagine.png?raw=true "Optional Title")
+   <img src="https://github.com/Alberto199810/FinTech-Proj-NA/blob/main/Immagine.png" width="100">
 
 4) In the folder "migrations", change the parameters of the file 3_CommitRevealElections.js and input the parameters of your ballot
 5) Now, just run:
@@ -34,10 +36,15 @@ To develop your Heroku App, so that other people are able to vote on your ballot
 8) Once you're in the app folder, execute the following commands:
 
    `heroku login` (So that you connect your Heroku account to the command prompt)
+   
    `git init`
+   
    `git add .`
+   
    `git commit -m "first commit"`
+   
    `heroku create --your-app-name` (You can customize the app name)
+   
    `git push heroku master`
    
    Once the process is completed, just run:
