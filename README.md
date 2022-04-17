@@ -26,7 +26,7 @@ To develop your Heroku App, so that other people are able to vote on your ballot
 
    `truffle develop`
    
-   `truffle migrate --reset --network rinkeby`
+   `truffle migrate --network rinkeby`
 
    With these commands, your contract will be developed in the Rinkeby Testnet. It's crucial that your accounts own some Test ETH (you can add some at https://faucets.chain.link/rinkeby).
    
