@@ -50,6 +50,6 @@ To develop your Heroku App, so that other people are able to vote on your ballot
    
    `heroku open`
    
-### If your computer has low memory, you can encounter an error. Just reload the app.
+### WARNING: If your computer has low memory, you can encounter an error. Just reload the app.
 
 Now that you developed the app, the only thing that you have to do is to share the link among approved voters and start the voting!   
