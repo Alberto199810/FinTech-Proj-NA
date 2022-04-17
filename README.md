@@ -15,12 +15,6 @@ To develop your Heroku App, so that other people are able to vote on your ballot
 3) Once you're located in the repository, add the .env file, with:
    INFURA_API_KEY="..." (you can find the Key in the Infura dashboard changing the endpoint in "Rinkeby" and taking the last part of the link)
    MNEMONIC="zone seek .." (12 words phrase of your Metamask account)
-   
-   Here where you can find the Infura Key:
-   <p align="center">
-   <img src="C:\Users\alber\Desktop\Immagine" width="350" title="hover text">
-   </p>
-   
 4) In the folder "migrations", change the parameters of the file 3_CommitRevealElections.js and input the parameters of your ballot
 5) Now, just run:
    `truffle develop`
