@@ -34,6 +34,8 @@ To develop your Heroku App, so that other people are able to vote on your ballot
 7) Run: `cd app`
 8) Once you're in the app folder, execute the following commands:
 
+   `npm install` (to install the necessary packages)
+
    `heroku login` (So that you connect your Heroku account to the command prompt)
    
    `git init`
