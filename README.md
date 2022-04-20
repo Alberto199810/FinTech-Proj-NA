@@ -1,4 +1,4 @@
-# Voting DApp - Rinkeby
+# Secure Voting DApp - Rinkeby
 
 Please note that if you want a preview of the website, just visit https://fintech-voting-app.herokuapp.com/ (be sure you're logged in your Metamask account).
 
