@@ -4,7 +4,7 @@ Please note that if you want a preview of the website, just visit https://fintec
 
 ## BALLOT OPTIONS
 
-The main contract of our project, where almost all the main operations happen is **CommitRevealElections**. Below are presented the relevant features. The most important thing in our context is that *confidentiality* will always be secured: **nobody (even with a block inspector) will ever have the chance of seeing for who you committed your vote before the start of the reveal period.**
+The main contract of our project, where almost all the main operations happen is **CommitRevealElections**. Below are presented the relevant features. The most important thing in our context is that *confidentiality* will always be secured: **nobody (even with a block inspector) will ever have the chance of seeing for whom you committed your vote before the start of the reveal period.**
 
 #### IMPORTANT: All the following features are modifiable by the owner of the contract when he sets up the constructor for the contract. He/She is totally free of deciding each of these options.
 
