@@ -2,6 +2,42 @@
 
 Please note that if you want a preview of the website, just visit https://fintech-voting-app.herokuapp.com/.
 
+## BALLOT OPTIONS
+
+The main contract of our project, where almost all the main operations happen is **CommitRevealElections**.
+```
+TIME PERIODS:
+● The first one for proposing candidates (in addition to those already selected by the owner of the contract).
+● The second for actually committing the vote.
+● The third - and last - one for the reveal of the previously committed vote.
+
+VOTES:
+● Each voter can have more than 1 vote. Minimum is 1 but there is no maximum.
+
+WHITELISTED ADDRESSES:
+```
+
+#### Please note that all these variables are modifiable by the owner which can decide how long each of this steps should last.
+
+
+Together with this, a single voter can have more than 1 vote. Again, this approach can be changed but we approached this issue by thinking that in order for the contract to be implementable in various scenarios, allowing for more than one vote could have been very useful.
+
+Then, we thought that the ballot in principle should not be public, in the sense that the owner should be allowed to decide who can and cannot vote. Therefore, only whitelisted addresses (and in turn whitelisted voters) can participate to the ballot. Still, if somebody who thinks of having the right to vote does not have the permission, he/she can ask for his/her right to vote to the owner.
+Moving on into the contract, some elements characterizing information about the current status of the vote are developed and then we have defined the functions.
+We then pass to define the most important functions of the contract which represent the building block upon which a potential 2.0 version could be implemented in the future.
+setCandidates is the first translation in solidity terms of something what we previously introduced: only whitelisted addresses can actually enjoy the ballot in its entirety. Indeed, already from the step of proposing new candidates, we think there is the need of having received the right to participate. Again, a voter can ask for a right he/she thinks of deserving.
+Then, when the first period of time has expired, commitVote becomes the running function. Here, it important to add some checks in order to make the contract safe. Indeed, we don’t want voters to provide more votes than the amount they are allowed to and we want that votes are committed in the commit period; neither in advance, nor later. Together with these two elements, we also require to the voter an amount of Eth which is kept at stake up to the end of the ballot. [ALBI AGGIUNGI TU UNA RIGA QUI SUL PERCHE’ QUESTO SIA IMPORTANTE].
+For the third period of time, the function revealVote is almost self-explanatory; it implements a structure which allows for the reveal. Again, the same above-mentioned elements to keep the contract safe are defined, with the addition that obviously, in order to be counted as a valid one, a vote should have been committed in time.
+Then, we pass to the actual count of the votes where we retrieve the names (and sum the votes) of the voted candidates.
+Finally, the winners are revealed with getWinners which starts being the running function only in the moment when the time for revealing period is over.
+
+Together with the most important functions we have previously discussed, other refinements have been implemented for completeness.
+Indeed, we allow the Owner to be the only person able to call the functions with onlyOwner and we check if the voter is whitelisted with checkifWhitelisted. We allow people to apply for rights with applyForRights, while listing for the owner those who have applied for rights with showApplierForRights and allowing the owner to provide those rights with giveRightsToAddresses.
+
+Then, we implemented showCandidates which again we think it’s quite self-explanatory as returnWinners. And, votesForACandidate is a valid option for allowing to see the vote for a single candidate once the revealing time is over.
+Moreover, we implemented the functions getRemainingTimeForProposal, getRemainingTimeForCommitment and getRemainingTimeForReveal to allow people to understand how much time is left for each of these steps. In particular, these functions end up being very helpful for the app design.
+
+
 In this repository, you can find a DApp for a decentralized voting system.
 
 ## PRELIMINARY STEPS
