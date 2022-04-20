@@ -5,7 +5,7 @@
 Please note that if you want a preview of the website, just visit https://fintech-voting-app.herokuapp.com/ (be sure you're logged in your Metamask account).
 
 ## PROJECT DESCRIPTION:
-The main scope of the project is a blockchain based electronic voting system. At the state of today, electronic voting has evolved and has entered in the life of many people, but it's still something on which many people still do not rely on due to possible frauds. That's exactly where we want to act: due to the many security and privacy vulnerabilities experienced over time, results have not been very successful.
+The main scope of the project is a blockchain based electronic voting system. At the state of today, electronic voting has evolved and has entered in the life of many people, but it's still something on which many people still do not rely on due to possible frauds. That's exactly where we want to act: due to the many security and privacy vulnerabilities experienced over time, there's a lot of space for improvements.
 
 By exploiting blockchain distribution and decentralization, along with the Commit - Reveal scheme, we managed to create a Ballot framework where nobody, even considering the total transparency of the blockchain, can retrieve the vote of a person when he/she deposits it. Moreover, it is secure because nobody can cheat on the results, and vote are clear and published on the blockchain. This kind of system would help in many context, both in a corporate scenario and in a political elections context, especially in countries where voting system is doubt.
 
