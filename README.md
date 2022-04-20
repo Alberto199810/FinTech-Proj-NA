@@ -47,7 +47,7 @@ To develop your Heroku App, so that other people are able to vote on your ballot
    
    `git commit -m "first commit"`
    
-   `heroku create --your-app-name` (You can customize the app name)
+   `heroku create your-app-name` (You can customize the app name)
    
    `git push heroku master`
    
