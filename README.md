@@ -4,9 +4,16 @@
 
 Please note that if you want a preview of the website, just visit https://fintech-voting-app.herokuapp.com/ (be sure you're logged in your Metamask account).
 
+## PROJECT DESCRIPTION:
+The main scope of the project is a blockchain based electronic voting system. At the state of today, electronic voting has evolved and has entered in the life of many people, but it's still something on which many people still not rely on due to possible frauds. That's exactly where we want to act: due to the many security and privacy vulnerabilities experienced over time, results have not been very successful.
+
+By exploiting blockchain distribution and decentralization, along with the Commit - Reveal scheme, we managed to create a Ballot framework where nobody, even considering the total transparency of the blockchain, can retrieve the vote of a person when he/she deposits it. Moreover, it is secure because nobody can cheat on the results, and vote are clear and published on the blockchain. This kind of system would help in many context, both in a corporate scenario and in a political elections context, especially in countries where voting system is doubt.
+
+Our mission is to ensure both a clear and transparent voting system where nobody can fake deposited votes (so to avoid manipulation) and the confidentiality of votes: **nobody (even with a block inspector) will ever have the chance of seeing for whom you committed your vote before the start of the reveal period.**
+
 ## BALLOT OPTIONS
 
-The main contract of our project, where almost all the main operations happen is **CommitRevealElections**. Below are presented the relevant features. The most important thing in our context is that *confidentiality* will always be secured: **nobody (even with a block inspector) will ever have the chance of seeing for whom you committed your vote before the start of the reveal period.**
+The main contract of our project, where almost all the main operations happen is **CommitRevealElections**. Below are presented the most relevant features.
 
 #### IMPORTANT: All the following features are modifiable by the owner of the contract when he sets up the constructor for the contract. He/She is totally free of deciding each of these options.
 
@@ -72,7 +79,7 @@ To develop your Heroku App, so that other people are able to vote on your ballot
 
 1) Clone this repository with `git clone https://github.com/Alberto199810/FinTech-Proj-NA.git`
 2) Change your directory in the root of the newly created folder with `cd FinTech-Proj-NA`
-3) Once you're located in the repository, add the .env file, with:
+3) Once you're located in the repository, add the **.env** file, with:
 
    INFURA_API_KEY="..." (you can find the Key in the Infura dashboard changing the endpoint in "Rinkeby" and taking the last part of the link)
    
@@ -116,3 +123,23 @@ To develop your Heroku App, so that other people are able to vote on your ballot
 ##### WARNING: If your computer has low memory, you can encounter an error. Just reload the app.
 
 Now that you developed the app, the only thing that you have to do is to share the link among approved voters and start the voting!
+
+## TECH STACK USED:
+Frontend:
+* [Drizzle](https://trufflesuite.com/drizzle/)
+* [Heroku](https://www.heroku.com/)
+
+Backend:
+* [Ethereum Blockchain](https://ethereum.org/en/)
+* [Solidity](https://docs.soliditylang.org/en/v0.8.11/)
+* [Infura](https:https://infura.io) to connect to Etherium network
+* [Rinkeby](https://faucets.chain.link/rinkeby) test network
+* [Truffle](https://trufflesuite.com/) to compile and deploy contracts
+
+## REPOSITORY STRUCTURE
+* app: Folder containing the structure of the UI. Drizzle was used to set it up 
+* contracts: Folder containing Solidity contracts:
+  * CommitRevealElections.sol: Main contract with ballot framework.
+  * String_Evaluation.sol: Contract useful for function used in CommitRevealElections.sol. Deals mostly with strings interpretation in Solidity
+* migrations: Folder containing smart contracts deployed. In 3_CommitRevealElections.js you can set up the constructor for your specific ballot.
+* node_modules: Folder containing dependencies.
