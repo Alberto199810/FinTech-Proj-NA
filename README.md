@@ -137,9 +137,9 @@ Backend:
 * [Truffle](https://trufflesuite.com/) to compile and deploy contracts
 
 ## REPOSITORY STRUCTURE
-* app: Folder containing the structure of the UI. Drizzle was used to set it up 
-* contracts: Folder containing Solidity contracts:
-  * CommitRevealElections.sol: Main contract with ballot framework.
-  * String_Evaluation.sol: Contract useful for function used in CommitRevealElections.sol. Deals mostly with strings interpretation in Solidity
-* migrations: Folder containing smart contracts deployed. In 3_CommitRevealElections.js you can set up the constructor for your specific ballot.
-* node_modules: Folder containing dependencies.
+* ```app```: Folder containing the structure of the UI. Drizzle was used to set it up 
+* ```contracts```: Folder containing Solidity contracts:
+  * ```CommitRevealElections.sol```: Main contract with ballot framework.
+  * ```String_Evaluation.sol```: Contract useful for function used in CommitRevealElections.sol. Deals mostly with strings interpretation in Solidity
+* ```migrations```: Folder containing smart contracts deployed. In 3_CommitRevealElections.js you can set up the constructor for your specific ballot.
+* ```node_modules```: Folder containing dependencies.
