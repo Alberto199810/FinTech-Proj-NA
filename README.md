@@ -29,7 +29,10 @@ The main contract of our project, where almost all the main operations happen is
 
 #### STAKE:
 ```
-● To avoid from having people that strategically decided to not reveal their vote during the reveal period, the admin can require a staking amount. What does it mean? This means that a voter, to deposit his/her vote, will have to stake a certain ETH amount, that will receive back only when he/she will reveal the vote. This is crucial to maintain a fair behaviour in the ballot. Stake amount will be decided by the admin.
+● To avoid from having people that strategically decided to not reveal their vote during the reveal period, the admin can require 
+  a staking amount. What does it mean? This means that a voter, to deposit his/her vote, will have to stake a certain ETH amount, 
+  that will receive back only when he/she will reveal the vote. This is crucial to maintain a fair behaviour in the ballot. 
+● Stake amount will be decided by the admin.
 ```
 
 #### WINNERS:
@@ -41,7 +44,9 @@ The main contract of our project, where almost all the main operations happen is
 #### CANDIDATES:
 ```
 ● Maximum number of candidates can be decided by the admin of the ballot. 
-● A set of candidates can be decided directly in the input of the contract. Those candidates cannot be removed later. If the maximum number of candidates is equal to the choices in the set of starting candidates, voters will not have the possibility of proposing candidates.
+● A set of candidates can be decided directly in the input of the contract. Those candidates cannot be removed later. If the 
+  maximum number of candidates is equal to the choices in the set of starting candidates, voters will not have the possibility
+  of proposing candidates.
 ```
 
 #### CHECKS:
