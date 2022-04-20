@@ -132,7 +132,7 @@ Frontend:
 Backend:
 * [Ethereum Blockchain](https://ethereum.org/en/)
 * [Solidity](https://docs.soliditylang.org/en/v0.8.11/)
-* [Infura](https:https://infura.io) to connect to Etherium network
+* [Infura](https:https://infura.io) to connect to Ethereum network
 * [Rinkeby](https://faucets.chain.link/rinkeby) test network
 * [Truffle](https://trufflesuite.com/) to compile and deploy contracts
 
