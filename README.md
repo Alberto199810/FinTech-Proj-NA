@@ -10,7 +10,9 @@ In this repository, you can find a DApp for a decentralized voting system.
 2) Install Heroku on your machine: https://devcenter.heroku.com/articles/getting-started-with-python#set-up
 3) Create an INFURA account at https://infura.io/
 
-To develop your Heroku App, so that other people are able to vote on your ballot, follow the following steps:
+## INSTRUCTIONS
+
+To develop your Heroku App, so that other people are able to vote on your ballot, follow these steps:
 
 1) Clone this repository with `git clone https://github.com/Alberto199810/FinTech-Proj-NA.git`
 2) Change your directory in the root of the newly created folder with `cd FinTech-Proj-NA`
@@ -51,10 +53,10 @@ To develop your Heroku App, so that other people are able to vote on your ballot
    
    `git push heroku master`
    
-   Once the process is completed, just run:
+9) Once the process is completed, just run:
    
    `heroku open`
    
-### WARNING: If your computer has low memory, you can encounter an error. Just reload the app.
+##### WARNING: If your computer has low memory, you can encounter an error. Just reload the app.
 
 Now that you developed the app, the only thing that you have to do is to share the link among approved voters and start the voting!
