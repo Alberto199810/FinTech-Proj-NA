@@ -15,7 +15,7 @@ Our mission is to ensure a clear and transparent voting system where nobody can 
 
 The main contract of our project, where almost all the main operations happen is **CommitRevealElections**. Below are presented the most relevant features.
 
-#### IMPORTANT: All the following features are modifiable by the owner of the contract when he sets up the constructor for the contract. He/She is totally free of deciding each of these options.
+#### IMPORTANT: All the following features are modifiable by the owner of the contract when he/she sets up the constructor for the contract. He/She is totally free of deciding each of these options.
 
 #### TIME PERIODS:
 ```
