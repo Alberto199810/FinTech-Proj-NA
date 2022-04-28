@@ -2,7 +2,6 @@ import React from "react"
 import { Table } from "react-bootstrap";
 
 export default ({ drizzle, drizzleState, winners }) => {
-    winners = ["Obama", "Biden"]
     return (
         <div className="table--div">
             <h4>Voting Over and results are revealed!</h4>
