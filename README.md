@@ -4,6 +4,12 @@
 
 Please note that if you want a preview of the website, just visit https://fintech-voting-app.herokuapp.com/ (be sure you're logged in your Metamask account).
 
+## Table of Contents
+1. [PROJECT DESCRIPTION](#project-description)
+2. [APP SETUP](#app-setup)
+3. [TECH STACK USED](#tech-stack-used)
+4. [REPOSITORY STRUCTURE](#repository-structure)
+
 ## PROJECT DESCRIPTION:
 The main scope of the project is a blockchain based electronic voting system. At the state of today, electronic voting has evolved and has entered in the life of many people, but it's still something on which many people still do not rely on due to possible frauds. That's exactly where we want to act: due to the many security and privacy vulnerabilities experienced over time, there's a lot of space for improvements.
 
