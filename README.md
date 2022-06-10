@@ -2,8 +2,6 @@
 
 <img src="https://img.shields.io/badge/Ethereum-20232A?style=for-the-badge&logo=ethereum&logoColor=white" width="130"> <img src="https://www.herokucdn.com/deploy/button.png" width="145">
 
-Please note that if you want a preview of the website, just visit https://fintech-voting-app.herokuapp.com/ (be sure you're logged in your Metamask account).
-
 ## Table of Contents
 1. [PROJECT DESCRIPTION](#project-description)
 2. [APP SETUP](#app-setup)
